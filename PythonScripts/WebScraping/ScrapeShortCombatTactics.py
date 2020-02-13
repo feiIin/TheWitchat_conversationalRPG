@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from requests import get
 import re
 
-enemies = ["Ghoul", "Dog", "Drowner", "Nekker", "Wraith", "Water hag", "Griffin_(creature)", "Noonwraith"]
+enemies = ["Ghoul", "Dog", "Drowner", "Nekker", "Wraith", "Water hag", "Griffin_(creature)", "Noonwraith", "nightwraith"]
 tactics = ""
 for x in enemies:
     url = 'https://witcher.fandom.com/wiki/' + x
