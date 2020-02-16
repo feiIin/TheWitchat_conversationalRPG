@@ -1,43 +1,34 @@
-from ConnectToDatabase import *
+from pymongo import MongoClient
+import json
+
+try:
+        client = MongoClient('localhost', 27017)
+        print("FOUND")
+except:
+        print("FAILED")
+
+db = client.convAgentDB
+
+
 def GetEnemyInfo(enemyName, nameOfElement):
-    print("SYSTEM HAS FOUND KEYWORDS: " + enemyName + " AND " + nameOfElement)
     collection = db.Enemies
-    if enemyName == "griffin":
-        enemyName = "griffin (creature)"
-    print(enemyName)
     myquery = {"name": enemyName}
-    response = ""
     try:
         mydoc = collection.find(myquery)
         tempResult = str(mydoc[0][nameOfElement])
-        response = tempResult
+        print(tempResult)
     except:
-        print("ENEMY Entry invalid " + enemyName + "  "+ nameOfElement)
-        response = "Entry invalid"
-    return response
+        print("Entry invalid")
 
 def GetAlchemyInfo(itemName, nameOfElement):
-    print("SYSTEM HAS FOUND KEYWORDS: " + itemName + " AND " + nameOfElement)
     collection = db.Alchemy
     myquery = {"name": itemName}
-    response = ""
     try:
         mydoc = collection.find(myquery)
         tempResult = str(mydoc[0][nameOfElement])
-        response = tempResult
+        print(tempResult)
     except:
-      #  print("ALCHEMY Entry invalid " + itemName + "  "+ nameOfElement)
-        response = "Entry invalid"
-    return response
+        print("Entry invalid")
 
-#
-# try:
-#         client = MongoClient('localhost', 27017)
-#         print("FOUND")
-# except:
-#         print("FAILED")
-#
-# db = client.convAgentDB
-#
-# #GetEnemyInfo("Ghoul", "longCombatTactic")
-# #GetAlchemyInfo("Swallow", "ingredients")
+GetEnemyInfo("Ghoul", "longCombatTactic")
+GetAlchemyInfo("Swallow", "ingredients")

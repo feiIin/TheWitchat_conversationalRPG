@@ -1,4 +1,7 @@
 import speech_recognition as sr
+import keyboard
+
+
 
 def RecordVoice():
     recording = True
@@ -10,7 +13,7 @@ def RecordVoice():
         print("Please say something to Geralt")
         audio = r.listen(source, timeout= 2, phrase_time_limit= 5)
         try:
-            print("You have said the following: \n" +r.recognize_google(audio))
+            #print("You have said the following: \n" +r.recognize_google(audio))
             transcript = str(r.recognize_google(audio))
             recording = False
         except Exception as e:
@@ -18,3 +21,13 @@ def RecordVoice():
             transcript = "no valid sound"
             #print("Error : " + str(e))
     return transcript
+
+
+recording = False
+while True:
+    try:
+        if keyboard.is_pressed('q') and not recording:  # if key 'q' is pressed
+            print(RecordVoice())
+            break
+    except:
+        break
