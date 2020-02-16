@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstalLog Project="ChatMod" Build_date="14/02/2020 17:08:56">
+  <Files>
+    <Directory Path="D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods">
+      <Directory Path="D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods\modChatMod">
+        <Directory Path="D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods\modChatMod\content">
+          <Directory Path="D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods\modChatMod\content\scripts">
+            <Directory Path="D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods\modChatMod\content\scripts\local">
+              <file>D:\SteamLibrary\steamapps\common\The Witcher 3\bin\x64\witcher3.exe\..\..\..\Mods\modChatMod\content\scripts\local\bot_helpers.ws</file>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Files>
+</InstalLog>
