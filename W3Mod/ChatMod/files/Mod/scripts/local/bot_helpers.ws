@@ -13,7 +13,7 @@ exec function writeCurrentQuest()
 	var currentQuest : CJournalQuest;
 	currentQuest = theGame.GetJournalManager().GetTrackedQuest();
 	
-	LogChannel('testmod',"current_quest:"+GetLocStringById(currentQuest.GetTitleStringId()));
+	LogChannel('ChatMod',"current_quest:"+GetLocStringById(currentQuest.GetTitleStringId()));
 }
 
 exec function writeMonstersLevel()
@@ -29,10 +29,10 @@ exec function writeMonstersLevel()
 		levels += monster_list[i].GetLevel() + " ";
 	}
 	
-	LogChannel('testmod', levels);
+	LogChannel('ChatMod', levels);
 }
 
 exec function writeGeraltHealth()
 {
-	LogChannel('testmod',"geralt_health:"+thePlayer.GetLevel());
+	LogChannel('ChatMod',"geralt_health:"+thePlayer.GetLevel());
 }
