@@ -3,6 +3,9 @@ from requests import get
 import re
 from ConnectToDatabase import *
 
+# Initializing arrays. The Items[] and enemies[] are the elements which we are going to scrape data from, from the Website
+# The ToInsert arrays are the ones we are going to use to store classes and we are going to push these classes to the database
+# The Recognised arrays are the elements which are actually recognised by the Google Speech to Text.
 itemsToInsert = []
 items = ["White Raffard's Decoction","Swallow","White Honey","Ekhidna decoction","Troll decoction" ,"Ekimmara decoction","Grave hag decoction",
          "Thunderbolt","Petri's Philter","Black Blood","Tawny Owl", "Maribor Forest", "Leshen decoction", "Nekker warrior decoction",
@@ -25,6 +28,7 @@ class Enemy:
      self.longCombatTactics = tempLongTactic
      self.shortCombatTactics = tempShortTactic
 
+
 class Alchemy:
     def __init__(self, tempName, tempEffect, tempIngredient):
         self.name = tempName
@@ -33,7 +37,8 @@ class Alchemy:
 
 
 
-
+# Running this script allows you to FILL the mongoDb database based on info on the ENEMIES in the witcher 3 WIKI
+# NOTE: It only looks for the enemies that are in the array enemies[]
 def insertEnemies():
     collection = db.Enemies
     for x in enemies:
@@ -96,7 +101,8 @@ def insertEnemies():
             collection.insert_one(test)
 
 
-
+# Running this script allows you to FILL the mongoDb database based on info on the ALCHEMY in the witcher 3 WIKI
+# NOTE: It only looks for the enemies that are in the array Items[]
 def insertAlchemy():
     print("INSERT")
     collection = db.Alchemy

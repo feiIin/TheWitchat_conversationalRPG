@@ -1,4 +1,9 @@
 from ConnectToDatabase import *
+
+# These are examples of how to query data from the database
+# The following scripts need a name and an element.
+# The name is the name of the enemy/item you want data from and the element in the database you want returned.
+
 def GetEnemyInfo(enemyName, nameOfElement):
     print("SYSTEM HAS FOUND KEYWORDS: " + enemyName + " AND " + nameOfElement)
     collection = db.Enemies
@@ -30,14 +35,3 @@ def GetAlchemyInfo(itemName, nameOfElement):
         response = "Entry invalid"
     return response
 
-#
-# try:
-#         client = MongoClient('localhost', 27017)
-#         print("FOUND")
-# except:
-#         print("FAILED")
-#
-# db = client.convAgentDB
-#
-# #GetEnemyInfo("Ghoul", "longCombatTactic")
-# #GetAlchemyInfo("Swallow", "ingredients")

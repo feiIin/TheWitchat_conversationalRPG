@@ -1,6 +1,9 @@
 from bs4 import BeautifulSoup
 from requests import get
 import re
+# DEPRECATED CODE!!!
+# THIS IS THE WAY TO SCRAPE THE DATA OF THE ITEMS FROM THE WIKI.
+# IF YOU WANT TO SCRAPE THE DATA FROM THE WIKI TO FILL THE DATABASE PLEASE REFER TO THE MONGODBSCRIPT FUNCTIONS
 
 items = ["White Raffard's Decoction","Swallow","White Honey","Ekhidna decoction","Troll decoction" ,"Ekimmara decoction","Grave hag decoction",
          "Thunderbolt","Petri's Philter","Black Blood","Tawny Owl", "Maribor Forest", "Leshen decoction", "Nekker warrior decoction",
