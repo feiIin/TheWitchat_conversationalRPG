@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml version="2.0">
+	
+	<category>
+        <pattern>*</pattern>
+        <template>
+            <random>
+                <li>I didn't get that</li>
+                <li>What was that again</li>
+                <li>I don't understand you </li>
+            </random>
+        </template>
+    </category>
+    
+	<category>
+        <pattern>Where are you from</pattern>
+        <template>From Rivia</template>
+    </category>
+    
+    <category>
+        <pattern>What is your favorite color</pattern>
+        <template>Red</template>
+    </category>
+   
+    <category>
+        <pattern>Who is Vesemir</pattern>
+        <template>Vesemir was the oldest and most experienced witcher</template>
+    </category>
+    
+    <category>
+        <pattern>What is a Griffin</pattern>
+        <template>The griffin looks like a combination of a ferocious cat and a giant bird.</template>
+    </category>
+    
+    <category>
+        <pattern>What is the point of this quest</pattern>
+        <template>To defeat the griffin in order to obtain information about Yennifer's whereabouts</template>
+    </category>
+    
+    
+</aiml>
