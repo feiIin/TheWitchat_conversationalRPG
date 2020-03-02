@@ -1,0 +1,4 @@
+{
+  "StateTable": "session_id",
+  "UserTable": "user_id"
+}

@@ -1,0 +1,5 @@
+{
+  "database_name": "conversationalrpg",
+  "host": "localhost",
+  "port": 27017
+}
