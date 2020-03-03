@@ -1,3 +1,9 @@
 pymongo
 retrying
 rasa
+gtts
+playsound
+keyboard
+speech_recognition
+bs4
+requests
