@@ -23,5 +23,8 @@ def RecordVoice():
         except Exception as e:
             recording = False
             transcript = "no valid sound"
-            #print("Error : " + str(e))
+            print("Error : " + str(e))
+
     return transcript
+
+# print(pyaudio.pa.__file__)
