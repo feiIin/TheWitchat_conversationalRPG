@@ -1,6 +1,10 @@
 from pynput.keyboard import Key, Listener
 import SpeechToText
 from nlu import get_intent
+from stateMachine import state_machine
+from dm import dm
+from nlg import nlg
+
 
 
 def on_press(key):
@@ -38,22 +42,49 @@ nluResult = ""
 def CheckKeys():
     with Listener(on_press=on_press,on_release=on_release) as listener:
         listener.join()
+
+
+def update_state_machine_dm(state_machine, intent, entity, phrase, pentity=""):
+    state_machine["Intent"] = intent
+    state_machine["Entity"] = entity
+    state_machine["Phrase"] = phrase
+    state_machine["P_Entity"] = pentity
+
+
 def main():
     global nluResult
     global phrase
     CheckKeys()
     #print("hello world")
+    # TODO: method to put the current state to the previous state
+
     if phrase is not "":
         nluResult = get_intent(phrase)
         # print(result)
         intent = nluResult["intent"]["name"]
         entities_names = [x["value"] for x in nluResult["entities"]]
         text = nluResult["text"].lower()
-        print(phrase )
-        print(intent)
-        print(entities_names[0])
-
-
+        # print(phrase )
+        # print(intent)
+        # print(entities_names[0])
+        update_state_machine_dm(state_machine, intent, entities_names[0], text)
+        print(state_machine["Intent"])
+        print(state_machine["Entity"])
+        print(state_machine["Phrase"])
+        print(state_machine["Info"])
+        print("\n")
+        # dm
+        info = dm()
+        print("\n DM  \n")
+        print(state_machine["Intent"])
+        print(state_machine["Entity"])
+        print(state_machine["Phrase"])
+        state_machine["Info"] = info
+        print(state_machine["Info"])
+        # nlg
+        nlg()
+        # final_phrase = nlg()
+        # print(final_phrase)
 
 
 if __name__ == '__main__':
