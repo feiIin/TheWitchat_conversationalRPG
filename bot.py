@@ -9,11 +9,12 @@ def on_press(key):
     print('{0} pressed'.format(key))
     if fetchingAnswer == False and key ==  Key.space:
         print("LOOK FOR PHRASE")
-        phrase = SpeechToText.RecordVoice()
+        phrase = cleanUpPhrase(SpeechToText.RecordVoice())
         print("GOT PHRASE")
         fetchingAnswer = True
     return False
 
+# TODO: add more cleaning, for all words that need to be cleaned
 def cleanUpPhrase(text):
     print("This is cleanUp ")
     result = ""
@@ -21,7 +22,7 @@ def cleanUpPhrase(text):
     for word in split:
         if word == "Jennifer":
             word = "Yennefer"
-        result += word
+        result += word + " "
     return result
 
 def on_release(key):
@@ -48,8 +49,10 @@ def main():
         intent = nluResult["intent"]["name"]
         entities_names = [x["value"] for x in nluResult["entities"]]
         text = nluResult["text"].lower()
+        print(phrase )
         print(intent)
         print(entities_names[0])
+
 
 
 
