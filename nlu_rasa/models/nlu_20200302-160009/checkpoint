@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/sabrina/PycharmProjects/conversationalrpg/nlu_rasa/models/nlu_20200302-160009/component_6_EmbeddingIntentClassifier.ckpt"
+all_model_checkpoint_paths: "/home/sabrina/PycharmProjects/conversationalrpg/nlu_rasa/models/nlu_20200302-160009/component_6_EmbeddingIntentClassifier.ckpt"
