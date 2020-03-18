@@ -4,7 +4,7 @@ from nlu import get_intent
 from stateMachine import state_machine
 from dm import dm
 from nlg import nlg
-
+from TextToSpeech import TextToSpeech
 
 
 def on_press(key):
