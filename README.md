@@ -18,7 +18,7 @@ We use Python=3.7 for our framework. Some of the main libraries require by each 
 - DM ``
 - NLG ``
 - NLU `rasa, spacy`
-- TTS ``
+- TTS `gtts`
 - DB `pymongo`
 
 To have the full pipeline running, follow the steps: 
@@ -32,3 +32,8 @@ pip install -r requirements.txt
 # Refer https://stackoverflow.com/a/60599224/3776827
 conda install -c tdido gtts-token
 ```
+
+For gtts to work properly, you might have to install `mpg321`. 
+
+- On mac: `brew install mpg321`
+- On ubuntu: `apt-get install mpg321`
