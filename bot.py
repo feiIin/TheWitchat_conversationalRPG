@@ -3,9 +3,8 @@ import SpeechToText
 from nlu import get_intent
 from stateMachine import state_machine
 from dm import dm
-from nlg import nlg
+import nlg
 from TextToSpeech import TextToSpeech
-
 
 def on_press(key):
     global fetchingAnswer
@@ -68,23 +67,23 @@ def main():
         # print(intent)
         # print(entities_names[0])
         update_state_machine_dm(state_machine, intent, entities_names[0], text)
-        print(state_machine["Intent"])
-        print(state_machine["Entity"])
-        print(state_machine["Phrase"])
-        print(state_machine["Info"])
+        # print(state_machine["Intent"])
+        # print(state_machine["Entity"])
+        # print(state_machine["Phrase"])
+        # print(state_machine["Info"])
         print("\n")
         # dm
         info = dm()
-        print("\n DM  \n")
-        print(state_machine["Intent"])
-        print(state_machine["Entity"])
-        print(state_machine["Phrase"])
+        # print("\n DM  \n")
+        # print(state_machine["Intent"])
+        # print(state_machine["Entity"])
+        # print(state_machine["Phrase"])
         state_machine["Info"] = info
-        print(state_machine["Info"])
+
         # nlg
-        nlg()
-        # final_phrase = nlg()
-        # print(final_phrase)
+        final_phrase = nlg.NLG(state_machine)
+        answer = final_phrase.get_nlg()
+        TextToSpeech(answer)
 
 
 if __name__ == '__main__':
