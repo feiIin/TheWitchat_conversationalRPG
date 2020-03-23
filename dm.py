@@ -38,6 +38,31 @@ This are examples of possible questions:
 
 How to answer to them? DO you think we can grab some info from the DB / Game / we hard code them?
 
+########################################################
+Methods in string:
+
+getWhoIsEntity()
+getWhereIsEntity()
+getInfoAboutEntity()
+getRelationshipBetweenGeraltAndEntity()
+getFactsAboutEntity()
+
+Related to ingredient.txt
+
+getHowToCraftEntity()
+getWhereToFindEntity()
+getWhatToDoWithEntity()
+getWhatIsPossibleToCraftNow()
+isPossibleToCraftEntity() # boolean
+
+Related to monster.txt
+
+getWhatIsEntity()
+getWhatIsThisEntity()
+getWeaknessesOfEntity()
+getLocationOfMonster()
+
+
 '''
 from nlu import get_intent
 from stateMachine import state_machine
@@ -55,8 +80,10 @@ def get_info(intent, text, entity):
             state_machine["Method"] = "getWhoIsEntity()"
             return getWhoIsEntity(entity)
         elif text.find("you") != -1 or text.find("between") != -1:
+            state_machine["Method"] = "getRelationshipBetweenGeraltAndEntity()"
             return getRelationshipBetweenGeraltAndEntity(entity)
         elif text.find("more") != -1 or text.find("tell") != -1:
+            state_machine["Method"] = "getFactsAboutEntity()"
             return getFactsAboutEntity(entity)
         else:
             return None
@@ -64,16 +91,22 @@ def get_info(intent, text, entity):
     # craft_helper intent #
     if intent == "craft_helper":
         if text.find("how") != -1 and text.find("can") != -1 or text.find("how") != -1 and text.find("do") != -1:
+            state_machine["Method"] = "getHowToCraftEntity()"
             return getHowToCraftEntity(entity)
         elif text.find("can") != -1:
+            state_machine["Method"] = "isPossibleToCraftEntity()"
             return isPossibleToCraftEntity(entity)
         elif text.find("where") != -1:
+            state_machine["Method"] = "getWhereToFindEntity()"
             return getWhereToFindEntity(entity)
-        elif text.find("what") != -1 or text.find("how") != -1 :
+        elif text.find("what") != -1 or text.find("how") != -1:
+            state_machine["Method"] = "getWhatToDoWithEntity()"
             return getWhatToDoWithEntity(entity)
         elif text.find("what") != -1 and ("can") != -1:
+            state_machine["Method"] = "getWhatIsPossibleToCraftNow()"
             return getWhatIsPossibleToCraftNow(entity)
         elif text.find("can") != -1 and ("craft") != -1:
+            state_machine["Method"] = "isPossibleToCraftEntity()"
             return isPossibleToCraftEntity(entity)
         else:
             return None
@@ -84,14 +117,18 @@ def get_info(intent, text, entity):
         if hasSaid == False:
             if text.find("how") != -1 and text.find("attack") != -1 or text.find("kill") != -1 or text.find("defeat") != -1 or text.find("how") != -1 and text.find("destroy") != -1:
                 hasSaid = True
+                state_machine["Method"] = "getShortCombat()"
                 return getShortCombat(entity)
         else:
             return getLongCombat(entity)
     elif text.find("what") != -1 and text.find("is") != -1:
+        state_machine["Method"] = "getWhatIsEntity()"
         return getWhatIsEntity(entity)
     elif text.find("what") != -1 and text.find("weaknesses") != -1:
+        state_machine["Method"] = "getWeaknessesOfEntity()"
         return getWeaknessesOfEntity(entity)
     elif text.find("where") != -1 and text.find("is") != -1:
+        state_machine["Method"] = "getLocationOfMonster()"
         return getLocationOfMonster(entity)
 
 # examples of database queries ##
@@ -180,32 +217,3 @@ def dm():
         entity = state_machine['P_Entity']
     info = get_info(intent, utterance, entity)
     return info
-
-#
-# def main():
-#     utterance = "Who is Yennefer"
-#     result = get_intent(utterance)
-#     # print(result)
-#     intent = result["intent"]["name"]
-#     entities_names = [x["value"] for x in result["entities"]]
-#     text = result["text"].lower()
-#     print(intent)main
-#     print(entities_names[0])
-#
-#     previous_machine = {'Intent': None, 'Entity': None, 'Phrase': None, 'Info': None}
-#
-#     if text.find("it") != -1 or text.find("her") != -1 or text.find("he") != -1 or text.find("she") != -1 or text.find("him") != -1:
-#         entities_names[0] = previous_machine['Entity']
-#
-#     info = get_info(intent, text, entities_names[0])
-#
-#     previous_machine['Intent'] = intent
-#     previous_machine['Entity'] = entities_names[0]
-#     previous_machine['Phrase'] = text
-#     previous_machine['Info'] = info
-#
-#     print(info)
-
-
-# if __name__ == "__main__":
-#     main()
