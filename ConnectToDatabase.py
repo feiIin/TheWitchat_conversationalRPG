@@ -8,4 +8,6 @@ except:
         print("FAILED")
 # Once it has successfully connected to a local mongodb database we set the database to convAgentDB (which is what we
 # should name our local database holding all the information.
-db = client.convAgentDB
+#db = client.convAgentDB
+db = client["convAgentDB"]
+

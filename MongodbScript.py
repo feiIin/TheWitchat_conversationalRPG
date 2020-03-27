@@ -15,6 +15,14 @@ items = ["White Raffard's Decoction","Swallow","White Honey","Ekhidna decoction"
          "Earth elemental decoction", "Arachas decoction", "Nightwraith decoction", "Noonwraith decoction", "Cat_(potion)",
          "Fiend decoction", "Cockatrice decoction", "Werewolf decoction", "Killer whale"]
 
+locationsToInsert = []
+locations = ["White_Orchard", "Kaer_Morhen", "Novigrad", "Oxenfurt"]
+
+charactersToInsert = []
+characters = ["Yennefer_of_Vengerberg", "Geralt_of_Rivia", "Triss_Merigold", "Ciri", "Vesemir", "Bram", "Bastien_Vildenvert",
+              "Elsa", "Dune_Vildenvert", "Herbalist_(Shrine)", "Merchant_(White_Orchard_sawmill)", "Mislav", "Peter_Saar_Gwynleve"]
+
+
 enemiesToInsert = []
 enemies = ["Ghoul", "Dog", "Drowner", "Nekker", "Wraith", "Water hag", "Griffin_(creature)", "Noonwraith", "nightwraith" ,"Devil_by_the_Well"]
 descriptions = ["Ghouls and graveirs are hard to describe. In part, they resemble humans - yet on the whole, they are the utter negation of all that is human. Though they have arms and legs like men, they walk on all fours like dogs or badgers."
@@ -30,6 +38,18 @@ descriptions = ["Ghouls and graveirs are hard to describe. In part, they resembl
 enemiesRecognised = ["Ghoul", "Dog", "Drowner", "Nekker", "Wraith", "Water hag", "Griffin"]
 tactics = ""
 
+class Location:
+    def __init__(self, tempName, tempDescription, tempMoreInfo, tempLocation):
+        self.name = tempName
+        self.description = tempDescription
+        self.moreInfo = tempMoreInfo
+        self.location = tempLocation
+
+class Character:
+    def __init__(self, tempName, tempDescription, tempMoreInfo):
+        self.name = tempName
+        self.description = tempDescription
+        self.moreInfo = tempMoreInfo
 
 class Enemy:
   def __init__(self, tempName,tempLongTactic, tempShortTactic, tempOccurrence, tempDescription):
@@ -46,12 +66,112 @@ class Alchemy:
         self.effect = tempEffect
         self.ingredients = tempIngredient
 
+def insertLocations():
+    print("INSERT Locations")
+    collection = db["Locations"]
+
+    for x in locations:
+
+        url = 'https://witcher.fandom.com/wiki/' + x
+        response = get(url)
+        html_soup = BeautifulSoup(response.text, 'html.parser')
+        type(html_soup)
+
+        tempName = html_soup.find("h1").text
+        tempDescription = html_soup.find("p").text
+        moreInfo = html_soup.find("p").findNext("p").text
+
+        if len(tempDescription.split()) < 10:
+            tempDescription = html_soup.find("p").findNext("p").text
+            moreInfo = html_soup.find("p").findNext("p").findNext("p").text
+
+        moreInfo = cleanUpSentence(moreInfo)
+        if 'Fandom' in moreInfo:
+            moreInfo = "None"
+
+        tempDescription = cleanUpSentence(tempDescription)
+
+        index = 0
+        combatTactics = html_soup.find_all("h3", class_="pi-data-label pi-secondary-font")[index]
+        found = False
+
+        while found is False:
+            if combatTactics.text != "Location":
+                index = index + 1
+                combatTactics = html_soup.find_all("h3", class_="pi-data-label pi-secondary-font")[index]
+            else:
+                found = True
+
+        tempLocationLocation = str(combatTactics.nextSibling.nextSibling)
+        tempLocationLocation = re.sub('<.*?>', '', tempLocationLocation)
+        tempLocationLocation = re.sub(' +', ' ', tempLocationLocation)
+        tempLocationLocation = cleanUpSentence(tempLocationLocation)
+
+        tempLocation = Location(tempName, tempDescription, moreInfo, tempLocationLocation)
+        locationsToInsert.append(tempLocation)
+
+    for e in locationsToInsert:
+        # print(e.name)
+        test = {
+            "name": e.name.lower(),
+            "description": e.description.lower(),
+            "moreInfo" : e.moreInfo.lower(),
+            "location" : e.location.lower()
+        }
+        collection.insert_one(test)
+        print(test)
+
+def insertCharacters():
+    print("INSERT CHARACTERS")
+    collection = db["Characters"]
+
+    for x in characters:
+
+        url = 'https://witcher.fandom.com/wiki/' + x
+        response = get(url)
+        html_soup = BeautifulSoup(response.text, 'html.parser')
+        type(html_soup)
+
+        tempName = html_soup.find("h1").text
+        tempDescription = html_soup.find("p").text
+        moreInfo = html_soup.find("p").findNext("p").text
+
+        if len(tempDescription.split()) < 10:
+            tempDescription = html_soup.find("p").findNext("p").text
+            moreInfo = html_soup.find("p").findNext("p").findNext("p").text
+
+        moreInfo = cleanUpSentence(moreInfo)
+        if 'Fandom' in moreInfo:
+            moreInfo = "None"
+
+        tempDescription = cleanUpSentence(tempDescription)
+
+        tempCharacter = Character(tempName, tempDescription, moreInfo)
+        charactersToInsert.append(tempCharacter)
+
+    for e in charactersToInsert:
+        # print(e.name)
+        test = {
+            "name": e.name.lower(),
+            "description": e.description.lower(),
+            "moreInfo" : e.moreInfo.lower()
+        }
+        collection.insert_one(test)
+        print(test)
+
+def cleanUpSentence(sentence):
+    sentence = re.sub(r'\[.*?\]', '', sentence)
+    sentence = re.sub(r'[^a-zA-Z0-9_.,]', ' ', sentence)
+    sentence = sentence.replace(' ,', ',')
+    sentence = sentence.replace(' .', '. ')
+    sentence = sentence.replace('  ', ' ')
+    return sentence
 
 # Running this script allows you to FILL the mongoDb database based on info on the ENEMIES in the witcher 3 WIKI
 # NOTE: It only looks for the enemies that are in the array enemies[]
 def insertEnemies():
     print("INSERT ENEMIES")
-    collection = db.Enemies
+    collection = db["Enemies"]
     descIndex = 0
     for x in enemies:
         url = 'https://witcher.fandom.com/wiki/' + x
@@ -64,8 +184,8 @@ def insertEnemies():
 
         tempName = html_soup.find("h1").text
 
-        if(html_soup.find(id ="Combat_tactics")):
-            combatTactics = html_soup.find(id ="Combat_tactics").parent
+        if(html_soup.find(id ="Combat_Tactics")):
+            combatTactics = html_soup.find(id ="Combat_Tactics").parent
             combatTacticsp = combatTactics.nextSibling
 
             for n in range(20):
@@ -133,15 +253,15 @@ def insertEnemies():
                     "location": e.occurrence.lower(),
                     "description" : e.description.lower()
                     }
-            #collection.insert_one(test)
+            collection.insert_one(test)
             print(test)
 
 
 # Running this script allows you to FILL the mongoDb database based on info on the ALCHEMY in the witcher 3 WIKI
 # NOTE: It only looks for the enemies that are in the array Items[]
 def insertAlchemy():
-    print("INSERT")
-    collection = db.Alchemy
+    print("INSERT Alchemy")
+    collection = db["Alchemy"]
 
     for item in items:
         url = 'https://witcher.fandom.com/wiki/' + item
@@ -264,7 +384,7 @@ def insertAlchemy():
                     "ingredients": i.ingredients
                     }
             print(test)
-            #collection.insert_one(test)
+            collection.insert_one(test)
 
 
 
@@ -312,6 +432,34 @@ def CheckIfIngredientsInInventory(name, tempIngredients):
     return result
 
 
+
+def CreateDatabase():
+    CleanDatabase()
+    insertLocations()
+    insertCharacters()
+    insertEnemies()
+    insertAlchemy()
+    print("Sucessfully created database")
+
+def CleanDatabase():
+    collection = db.Enemies
+    collection.drop()
+    collection = db.Locations
+    collection.drop()
+    collection = db.Characters
+    collection.drop()
+    collection = db.Alchemy
+    collection.drop()
+
+
+
+
+"""
+CALL CreateDatabase to Create a MONGODB database
+"""
+#CreateDatabase()
+
+
 """
 UNCOMMENT THE FOLLOWING LINES TO TEST THE CheckIfIngredientsInInventory METHOD
 tempIngredient is double commented because one of them results in a positive result and the other in a negative result
@@ -327,3 +475,4 @@ currentDatabaseItems = ['1 × Dwarven spirit   ', ' 1 × Werewolf mutagen ', ' 1
 
 # tempIngredient = ['1 × Dwarven spirit ', ' 1 × Werewolf mutagen ', ' 1 × Beggartick blossoms ', ' 1 × Hop umbels']
 # print(CheckIfIngredientsInInventory(name, tempIngredient))
+
