@@ -1,3 +1,5 @@
+gtts
+playsound
 pymongo
 retrying
 rasa
