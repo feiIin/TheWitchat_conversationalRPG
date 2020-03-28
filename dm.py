@@ -66,6 +66,7 @@ getLocationOfMonster()
 '''
 from nlu import get_intent
 from stateMachine import state_machine
+from MongodbScript import GetEnemyInfo, GetAlchemyInfo, GetCharacterInfo, GetLocationInfo
 
 # RULES ##############################
 
@@ -165,7 +166,7 @@ def getFactsAboutEntity(value):
 
 
 def getHowToCraftEntity(value):
-    return None
+    return GetLocationInfo(value, "ingredients")
 
 
 def isPossibleToCraftEntity(value):
@@ -177,7 +178,7 @@ def getWhereToFindEntity(value):
 
 
 def getWhatToDoWithEntity(value):
-    return None
+    return GetAlchemyInfo(value, "effect")
 
 
 def getWhatIsPossibleToCraftNow(value):
@@ -185,11 +186,11 @@ def getWhatIsPossibleToCraftNow(value):
 
 
 def getShortCombat(value):
-    return None
+    return GetEnemyInfo(value, "shortCombatTactic")
 
 
 def getLongCombat(value):
-    return None
+    return GetEnemyInfo(value, "longCombatTactic")
 
 
 def getWhatIsEntity(value):
@@ -205,7 +206,7 @@ def getWeaknessesOfEntity(value):
 
 
 def getLocationOfMonster(value):
-    return None
+    return GetEnemyInfo(value, "location")
 
 
 def dm():

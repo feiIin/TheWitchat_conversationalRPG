@@ -464,19 +464,19 @@ def QueryDB(collection, name, nameOfElement):
 
 def GetEnemyInfo(name, nameOfElement):
     collection = db.Enemies
-    return QueryDB(collection, name, nameOfElement)
+    return QueryDB(collection, name.lower(), nameOfElement)
 
 def GetCharacterInfo(name, nameOfElement):
     collection = db.Characters
-    return QueryDB(collection, name, nameOfElement)
+    return QueryDB(collection, name.lower(), nameOfElement)
 
 def GetAlchemyInfo(name, nameOfElement):
     collection = db.Alchemy
-    return QueryDB(collection, name, nameOfElement)
+    return QueryDB(collection, name.lower(), nameOfElement)
 
 def GetLocationInfo(name, nameOfElement):
     collection = db.Locations
-    return QueryDB(collection, name, nameOfElement)
+    return QueryDB(collection, name.lower(), nameOfElement)
 
 
 """
@@ -501,4 +501,6 @@ currentDatabaseItems = ['1 × Dwarven spirit   ', ' 1 × Werewolf mutagen ', ' 1
 # tempIngredient = ['1 × Dwarven spirit ', ' 1 × Werewolf mutagen ', ' 1 × Beggartick blossoms ', ' 1 × Hop umbels']
 # print(CheckIfIngredientsInInventory(name, tempIngredient))
 
-print(GetEnemyInfo("dog", "location"))
+# # FOLLING HAS EXAMPLES OF QUERYING THE DATABASE
+# print(GetEnemyInfo("ghoul", "shortCombatTactic"))
+# print(GetAlchemyInfo("swallow", "ingredients"))
