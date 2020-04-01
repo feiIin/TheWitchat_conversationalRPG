@@ -251,7 +251,7 @@ def insertEnemies():
                     "longCombatTactic": e.longCombatTactics.lower(),
                     "shortCombatTactic": e.shortCombatTactics.lower(),
                     "location": e.occurrence.lower(),
-                    "description" : e.description.lower()
+                    "description": e.description.lower()
                     }
             collection.insert_one(test)
             print(test)
@@ -434,7 +434,8 @@ def CheckIfIngredientsInInventory(name, tempIngredients):
 
 
 def CreateDatabase():
-    CleanDatabase()
+
+    # CleanDatabase()
     insertLocations()
     insertCharacters()
     insertEnemies()
@@ -457,7 +458,7 @@ def CleanDatabase():
 """
 CALL CreateDatabase to Create a MONGODB database
 """
-#CreateDatabase()
+CreateDatabase()
 
 
 """
