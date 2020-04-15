@@ -14,12 +14,12 @@ Install the dependencies using `bash setup.sh`. Alternatively, find the installa
 
 We use Python=3.7 for our framework. Some of the main libraries require by each component are:
 
-- ASR `gtts`
+- ASR `SpeechRecognition`
 - DM ``
-- NLG ``
+- NLG 
 - NLU `rasa, spacy`
-- TTS `gtts`
-- DB `pymongo`
+- TTS `gtts, playsound`
+- DB `pymongo, bs4`
 
 To have the full pipeline running, follow the steps: 
 ```
