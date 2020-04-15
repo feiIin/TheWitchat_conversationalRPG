@@ -5,3 +5,4 @@ gtts
 playsound
 pymongo
 bs4
+pynput
