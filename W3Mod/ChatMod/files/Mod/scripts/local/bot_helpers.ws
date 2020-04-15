@@ -37,7 +37,7 @@ exec function writeMonstersLevel()
 		levels += monster_list[i].GetLevel() + " ";
 	}
 	
-	LogChannel('ChatMod', levels);
+	LogChannel('ChatMod',"monster_levels:"+ levels);
 }
 
 exec function writeGeraltHealth()
