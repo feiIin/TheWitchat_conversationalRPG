@@ -38,3 +38,7 @@ For gtts to work properly, you might have to install `mpg321`.
 
 - On mac: `brew install mpg321`
 - On ubuntu: `apt-get install mpg321`
+
+For Mac to properly make pyaudio work:
+- brew install portaudio
+- pip install pyaudio
