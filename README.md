@@ -20,6 +20,7 @@ We use Python=3.7 for our framework. Some of the main libraries require by each 
 - NLU `rasa, spacy`
 - TTS `gtts, playsound`
 - DB `pymongo, bs4`
+- bot `pynput`
 
 To have the full pipeline running, follow the steps: 
 ```
