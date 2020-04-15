@@ -121,10 +121,12 @@
             "regularization_constant": 0.002,
             "negative_margin_scale": 0.8,
             "drop_rate": 0.2,
-            "weight_sparsity": 0.8,
+            "weight_sparsity": 0.0,
             "use_sparse_input_dropout": false,
             "evaluate_every_number_of_epochs": 20,
             "evaluate_on_number_of_examples": 0,
+            "tensorboard_log_directory": null,
+            "tensorboard_log_level": "epoch",
             "name": "EmbeddingIntentClassifier",
             "intent_classification": true,
             "entity_recognition": false,
@@ -135,6 +137,6 @@
             "class": "rasa.nlu.classifiers.embedding_intent_classifier.EmbeddingIntentClassifier"
         }
     ],
-    "trained_at": "20200401-121244",
-    "rasa_version": "1.8.0"
+    "trained_at": "20200415-170425",
+    "rasa_version": "1.9.6"
 }

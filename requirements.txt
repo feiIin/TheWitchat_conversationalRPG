@@ -1,5 +1,6 @@
 SpeechRecognition
-rasa
+rasa==
+1.9.6
 spacy
 gtts
 playsound
