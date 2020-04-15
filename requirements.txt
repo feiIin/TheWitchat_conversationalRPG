@@ -98,11 +98,9 @@ py==1.8.1
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 PyAudio==0.2.11
-pycairo==1.19.1
 pycparser==2.19
 pydot==1.4.1
 Pygments==2.5.2
-PyGObject==3.36.0
 PyJWT==1.7.1
 pykwalify==1.7.0
 pymongo==3.8.0
@@ -165,14 +163,9 @@ tabulate==0.8.6
 tensorboard==2.1.0
 tensorboardX==2.0
 tensorflow==2.1.0
-tensorflow-addons==0.8.2
-tensorflow-estimator==2.1.0
-tensorflow-hub==0.7.0
-tensorflow-probability==0.7.0
 termcolor==1.1.0
 terminaltables==3.1.0
 thinc==7.0.8
-torch==1.4.0
 tqdm==4.31.1
 twilio==6.26.3
 typeguard==2.7.1
