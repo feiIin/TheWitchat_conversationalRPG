@@ -23,9 +23,10 @@ def cleanUpPhrase(text):
     result = ""
     split = text.split()
     for word in split:
-        if word == "Jennifer":
+        if word == "Jennifer" or word == "yennefer" or word == "Yanni" or word == "Jonathan ":
             word = "Yennefer"
         result += word + " "
+    print("This is the new phrase: " + result   )
     return result
 
 def on_release(key):
