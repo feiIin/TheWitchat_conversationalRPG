@@ -128,17 +128,20 @@ def get_info(intent, text, entity):
                 hasSaid = True
                 state_machine["Method"] = "getShortCombat()"
                 return getShortCombat(entity)
-        else:
-            return getLongCombat(entity)
-    elif text.find("what") != -1 and text.find("is") != -1:
-        state_machine["Method"] = "getWhatIsEntity()"
-        return getWhatIsEntity(entity)
-    elif text.find("what") != -1 and text.find("weaknesses") != -1:
-        state_machine["Method"] = "getWeaknessesOfEntity()"
-        return getWeaknessesOfEntity(entity)
-    elif text.find("where") != -1 and text.find("is") != -1:
-        state_machine["Method"] = "getLocationOfMonster()"
-        return getLocationOfMonster(entity)
+            else:
+                return getLongCombat(entity)
+        elif text.find("what") != -1 and text.find("is") != -1:
+            state_machine["Method"] = "getWhatIsEntity()"
+            return getWhatIsEntity(entity)
+        elif text.find("what") != -1 and text.find("weaknesses") != -1:
+            state_machine["Method"] = "getWeaknessesOfEntity()"
+            return getWeaknessesOfEntity(entity)
+        elif text.find("where") != -1 and text.find("is") != -1:
+            state_machine["Method"] = "getLocationOfMonster()"
+            return getLocationOfMonster(entity)
+
+    state_machine["Method"] = "unknown()"
+    return ""
 
 # examples of database queries ##
 def getWhoIsEntity(value):
@@ -221,22 +224,16 @@ def dm():
     try:
         utterance = state_machine["Phrase"]
     except AttributeError:
-        print("No utterance found")
-    else:
         utterance = "none"
 
     try:
         intent = state_machine["Intent"]
     except AttributeError:
-        print("No intent found")
-    else:
         intent = "none"
 
     try:
         entity = state_machine["Entity"]
     except AttributeError:
-        print("No entity found")
-    else:
         entity = "none"
 
     # if utterance.find("it") != -1 or utterance.find("her") != -1 or utterance.find("he") != -1 or \
