@@ -62,6 +62,7 @@ getWhatIsThisEntity()
 getWeaknessesOfEntity()
 getLocationOfMonster()
 
+unknown()
 
 '''
 from nlu import get_intent
@@ -71,6 +72,14 @@ from stateMachine import state_machine
 
 
 def get_info(intent, text, entity):
+
+    # it the system is not able to get an intent, no info will be retrieved.
+    if intent == "none" or entity == "none":
+        print("I DID IT")
+        state_machine["Method"] = "unknown()"
+        return ""
+
+
     # get_lore intent #
     if intent == "get_lore":
         if text.find("where") != -1:
@@ -132,8 +141,6 @@ def get_info(intent, text, entity):
         return getLocationOfMonster(entity)
 
 # examples of database queries ##
-
-
 def getWhoIsEntity(value):
     if value == "Yennefer":
         return "the love of my life"
@@ -152,6 +159,8 @@ def getWhereIsEntity(value):
         return "somewhere"
 
 
+
+# TODO: delete them once the methods are connected with the DB
 def getInfoAboutEntity(value):
     return None
 
@@ -209,11 +218,31 @@ def getLocationOfMonster(value):
 
 
 def dm():
-    utterance = state_machine["Phrase"].lower()
-    entity = state_machine["Entity"]
-    intent = state_machine["Intent"]
-    if utterance.find("it") != -1 or utterance.find("her") != -1 or utterance.find("he") != -1 or \
-            utterance.find("she")!= -1 or utterance.find("him") != -1:
-        entity = state_machine['P_Entity']
+    try:
+        utterance = state_machine["Phrase"]
+    except AttributeError:
+        print("No utterance found")
+    else:
+        utterance = "none"
+
+    try:
+        intent = state_machine["Intent"]
+    except AttributeError:
+        print("No intent found")
+    else:
+        intent = "none"
+
+    try:
+        entity = state_machine["Entity"]
+    except AttributeError:
+        print("No entity found")
+    else:
+        entity = "none"
+
+    # if utterance.find("it") != -1 or utterance.find("her") != -1 or utterance.find("he") != -1 or \
+    #         utterance.find("she")!= -1 or utterance.find("him") != -1:
+    #     entity = state_machine['P_Entity']
+    # else:
+    #     entity = state_machine["Entity"]
     info = get_info(intent, utterance, entity)
     return info
