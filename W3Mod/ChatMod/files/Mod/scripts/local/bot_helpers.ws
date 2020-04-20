@@ -16,6 +16,14 @@ exec function writeCurrentQuest()
 	LogChannel('ChatMod',"current_quest:"+GetLocStringById(currentQuest.GetTitleStringId()));
 }
 
+exec function writeCurrentObjective()
+{
+	var currentObjective : CJournalQuestObjective;
+	currentObjective = theGame.GetJournalManager().GetHighlightedObjective();
+
+	LogChannel('ChatMod',"current_objective:"+GetLocStringById(current_objective.GetTitleStringId()));
+}
+
 exec function writeMonstersLevel()
 {
 	var monster_list : array<CActor>;
@@ -29,7 +37,7 @@ exec function writeMonstersLevel()
 		levels += monster_list[i].GetLevel() + " ";
 	}
 	
-	LogChannel('ChatMod', levels);
+	LogChannel('ChatMod',"monster_levels:"+ levels);
 }
 
 exec function writeGeraltHealth()
