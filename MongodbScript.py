@@ -453,6 +453,31 @@ def CleanDatabase():
     collection.drop()
 
 
+def QueryDB(collection, name, nameOfElement):
+    myquery = {"name": name}
+    try:
+        mydoc = collection.find(myquery)
+        tempResult = str(mydoc[0][nameOfElement])
+        response = tempResult
+    except:
+        response = "Entry invalid"
+    return response
+
+def GetEnemyInfo(name, nameOfElement):
+    collection = db.Enemies
+    return QueryDB(collection, name.lower(), nameOfElement)
+
+def GetCharacterInfo(name, nameOfElement):
+    collection = db.Characters
+    return QueryDB(collection, name.lower(), nameOfElement)
+
+def GetAlchemyInfo(name, nameOfElement):
+    collection = db.Alchemy
+    return QueryDB(collection, name.lower(), nameOfElement)
+
+def GetLocationInfo(name, nameOfElement):
+    collection = db.Locations
+    return QueryDB(collection, name.lower(), nameOfElement)
 
 
 """
@@ -477,3 +502,6 @@ currentDatabaseItems = ['1 × Dwarven spirit   ', ' 1 × Werewolf mutagen ', ' 1
 # tempIngredient = ['1 × Dwarven spirit ', ' 1 × Werewolf mutagen ', ' 1 × Beggartick blossoms ', ' 1 × Hop umbels']
 # print(CheckIfIngredientsInInventory(name, tempIngredient))
 
+# # FOLLING HAS EXAMPLES OF QUERYING THE DATABASE
+# print(GetEnemyInfo("ghoul", "shortCombatTactic"))
+# print(GetAlchemyInfo("swallow", "ingredients"))
