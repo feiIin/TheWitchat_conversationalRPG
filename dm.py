@@ -65,6 +65,7 @@ getLocationOfMonster()
 unknown()
 
 '''
+from PythonScripts import ConnectToDatabase
 from nlu import get_intent
 from stateMachine import state_machine
 from MongodbScript import GetEnemyInfo, GetAlchemyInfo, GetCharacterInfo, GetLocationInfo
@@ -141,17 +142,38 @@ def get_info(intent, text, entity):
             state_machine["Method"] = "getLocationOfMonster()"
             return getLocationOfMonster(entity)
 
+
     state_machine["Method"] = "unknown()"
     return ""
+
 
 # examples of database queries ##
 def getWhoIsEntity(value):
     if value == "Yennefer":
-        return "the love of my life"
+        return GetCharacterInfo("yennefer of vengerberg","description")
     elif value == "Vesemir":
-        return "the oldest and most experienced witcher"
+        return GetCharacterInfo("vesemir","description")
     elif value == "Ciri":
-        return "princess of Cintra"
+        return GetCharacterInfo("ciri","description")
+    elif value == "Geralt":
+        return GetCharacterInfo("geralt of rivia","description")
+    elif value == "Triss":
+        return GetCharacterInfo("triss merigold","description")
+    elif value == "Bram":
+        return GetCharacterInfo("Bram","description")
+    elif value == "Bastien":
+        return GetCharacterInfo("bastien vildenvert","description")
+    elif value == "Elsa":
+        return GetCharacterInfo("elsa","description")
+    elif value == "Peter":
+        return GetCharacterInfo("peter saar gwynleve","description")
+    elif value == "Dune":
+        return GetCharacterInfo("dune vildenvert","description")
+    elif value == "Mislav":
+        return GetCharacterInfo("mislav","description")
+    elif value == "Herbalist ":
+        return GetCharacterInfo("herbalist (shrine) ","description")
+
 
 
 def getWhereIsEntity(value):
@@ -161,6 +183,8 @@ def getWhereIsEntity(value):
         return "Kaer Morhen"
     elif value == "Ciri":
         return "somewhere"
+    elif value == "Geralt":
+        return "Right here, are you blind ?"
 
 
 
@@ -204,6 +228,12 @@ def getShortCombat(value):
 def getLongCombat(value):
     return GetEnemyInfo(value, "longCombatTactic")
 
+def getInfoAboutCharacter(value):
+    return GetCharacterInfo(value, "description")
+
+
+def getInfoAboutLocations(value):
+    return GetLocationInfo(value, "description")
 
 def getWhatIsEntity(value):
     return None
@@ -219,6 +249,33 @@ def getWeaknessesOfEntity(value):
 
 def getLocationOfMonster(value):
     return GetEnemyInfo(value, "location")
+
+
+
+def initiate_priority_list():
+    # 0 : monster 1 : health 2 : quest 3 : zone
+    # Gotta add the link to DM at some point.
+    priority_level_0 = []
+    priority_level_1 = []
+    priority_level_2 = []
+    priority_level_3 = []
+    priority_list = [priority_level_0, priority_level_1, priority_level_2, priority_level_3]
+    return priority_list
+
+
+def get_highest_priority_chat(priority_list):
+    for x in priority_list:
+        for y in x:
+            if y != None:
+                return y
+
+    # If there was nothing relevant in the priority list, return "Hmmm"
+    return "Hummm"
+
+
+def remove_from_priority_list(priority_list, element):
+    for x in priority_list:
+        priority_list[x].remove(element)
 
 
 def dm():

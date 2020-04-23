@@ -2,9 +2,13 @@ from pynput.keyboard import Key, Listener
 import SpeechToText
 from nlu import get_intent
 from stateMachine import state_machine
-from dm import dm
+from dm import dm, initiate_priority_list, get_highest_priority_chat, remove_from_priority_list, getShortCombat
 import nlg
 from TextToSpeech import TextToSpeech
+from PythonScripts.LogListener import *
+import datetime
+import random
+from threading import Timer
 
 def on_press(key):
     global fetchingAnswer
@@ -25,7 +29,7 @@ def cleanUpPhrase(text):
     for word in split:
         if word == "Jennifer" or word == "yennefer" or word == "Yanni" or word == "Jonathan " or word == "Jenny":
             word = "Yennefer"
-        if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard":
+        if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard" or word == "Jolt":
             word = "Geralt"
         if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla":
             word = "Ciri"
@@ -39,6 +43,10 @@ def cleanUpPhrase(text):
             word = "Griffin"
         if word == "wolf" or word == "Wolf" or word == "wolfs":
             word = "Big Bad Wolf"
+        if word == "Google":
+            word = "Ghoul"
+        if word == "chill":
+            word = "kill"
         result += word + " "
     print("This is the new phrase: " + result)
     return result
@@ -50,66 +58,141 @@ def on_release(key):
         # Stop listener
         return False
 
+
 fetchingAnswer = False
 phrase = ""
 nluResult = ""
+
+
 def CheckKeys():
     with Listener(on_press=on_press,on_release=on_release) as listener:
+        # TODO : Solve the bug that just replay the last query over and over again after this timer.
+        Timer(25, listener.stop).start()
         listener.join()
-
+        print('25 seconds passed')
+        return False
 
 
 def main():
     global nluResult
     global phrase
-    CheckKeys()
-    #print("hello world")
-    # TODO: method to put the current state to the previous state
 
-    if phrase is not "":
-        nluResult = get_intent(phrase)
-        # print(result)
-        intent = nluResult["intent"]["name"]
-        entities_names = [x["value"] for x in nluResult["entities"]]
-        text = nluResult["text"].lower()
+    current_time = datetime.datetime.now()
+    previous_time = datetime.datetime.now()
+    rng_cooldown = random.randint(30, 60)
+    priority_list = initiate_priority_list()
+    priority_list_already_used = []
 
-        # tries to retrieve the entity of the previous user input and store it as Previous entity
-        try:
-            state_machine["P_Entity"] = state_machine["Entity"]
-        except AttributeError:
-            text = "none"
+    while True:
+    # turned it into a loop, should work out.
 
-        # tries to fill the state machine with the Intent of the new phrase
-        try:
-            state_machine["Intent"] = intent
-        except AttributeError:
-            intent = "none"
 
-        # tries to fill the state machine with the Entity of the new phrase
-        try:
-            state_machine["Entity"] = entities_names[0]
-        except IndexError:
-            entity = "none"
+        current_time = datetime.datetime.now()
+        delta_time = (current_time.second + current_time.minute * 60) - (
+                previous_time.second + previous_time.minute * 60)
 
-        # tries to fill the state machine with the new phrase
-        try:
-            state_machine["Phrase"] = text
-        except AttributeError:
-            text = "none"
+        #print("hello world")
+        # TODO: method to put the current state to the previous state
 
-        print("\n")
-        info = dm()
+        if rng_cooldown < delta_time:
+            print("Overtime !")
+            previous_time = current_time
+            # testing values, this is the duration between two chitchat lines
+            rng_cooldown = random.randint(15, 25)
 
-        # tries to fill the state machine with the new information retrieved from the DB or the game
-        try:
-            state_machine["Info"] = info
-        except AttributeError:
-            info = "none"
+            # testing value, this represent the likehood of the bot saying a chitchat line or talk about the game
+            if(random.randint(0, 100) > 101) :
+                # update_W3_data()
+                W3_data = get_W3_data()
 
-        # nlg
-        final_phrase = nlg.NLG(state_machine)
-        answer = final_phrase.get_nlg()
-        TextToSpeech(answer)
+                """  useless for now as we don't have the quests in the DB
+                
+                if (W3_data.current_quest != ""):                    
+                    priority_list[3].append(W3_data.current_quest)
+                if (W3_data.current_objective != ""):                    
+                    priority_list[2].append(W3_data.current_objective)
+                    
+                """
+                if len(W3_data.near_monsters) > 0:
+                    if len(W3_data.near_monsters) > 0:
+                        monster = W3_data.near_monsters[0]["name"]
+                        monster_tactic = getShortCombat(monster)
+                        if monster_tactic != "Entry invalid":
+                            priority_list[1].append(monster_tactic)
+
+                if W3_data.geralt_health != "":
+                    if W3_data.geralt_health < 25:
+                        health_sentence = "Don't be stubborn and get to safety. Live to fight another day"
+                        if health_sentence not in priority_list[0]:
+                            priority_list[0].append(health_sentence)
+
+
+                # gotta add more stuff in it.
+
+                # Get the highest priority chat & send it to the TTS (NGL work was done before adding the elements
+                # Into the list)
+                sentence = get_highest_priority_chat(priority_list)
+                if sentence in priority_list_already_used :
+                    if sentence != "Hummm":
+                        remove_from_priority_list(priority_list, sentence)
+                        sentence = get_highest_priority_chat(priority_list)
+
+                priority_list_already_used.append(sentence)
+                TextToSpeech(sentence)
+
+                # TextToSpeech("Hummm")
+            else :
+                # Add some chitchat to the mix
+                chitchat_sentence = nlg.NLG(state_machine)
+                TextToSpeech(chitchat_sentence.ChitChat())
+
+        else :
+            CheckKeys()
+
+            if phrase is not "":
+                nluResult = get_intent(phrase)
+                # print(result)
+                intent = nluResult["intent"]["name"]
+                entities_names = [x["value"] for x in nluResult["entities"]]
+                text = nluResult["text"].lower()
+
+                # tries to retrieve the entity of the previous user input and store it as Previous entity
+                try:
+                    state_machine["P_Entity"] = state_machine["Entity"]
+                except AttributeError:
+                    text = "none"
+
+                # tries to fill the state machine with the Intent of the new phrase
+                try:
+                    state_machine["Intent"] = intent
+                except AttributeError:
+                    intent = "none"
+
+                # tries to fill the state machine with the Entity of the new phrase
+                try:
+                    state_machine["Entity"] = entities_names[0]
+                except IndexError:
+                    entity = "none"
+
+                # tries to fill the state machine with the new phrase
+                try:
+                    state_machine["Phrase"] = text
+                except AttributeError:
+                    text = "none"
+
+                print("\n")
+                info = dm()
+
+                # tries to fill the state machine with the new information retrieved from the DB or the game
+                try:
+                    state_machine["Info"] = info
+                except AttributeError:
+                    info = "none"
+
+                # nlg
+                final_phrase = nlg.NLG(state_machine)
+                answer = final_phrase.get_nlg()
+                TextToSpeech(answer)
 
 
 if __name__ == '__main__':
