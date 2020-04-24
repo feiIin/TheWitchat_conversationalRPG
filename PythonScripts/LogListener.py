@@ -27,6 +27,7 @@ class WitcherData:
         self.current_objective = ""
         self.near_monsters = []
 
+
 def get_W3_data():
 
     return data
@@ -38,7 +39,7 @@ def loop_program(file):
         # from game the log message follow the convention [ChatMod]request:response
         if new_line.startswith(MOD_PREFIX):
             # return only the request:response string (croppping prefix)
-            yield (new_line[len(MOD_PREFIX):])
+            yield (new_line[len(MOD_PREFIX)+1:])
         else:
             time.sleep(0.1)
 
@@ -78,7 +79,6 @@ def update_W3_data():
                             {"name": monster_name, "level": monster_level})
                         print(monster_name, monster_level)
                 # TODO call NLG
-
 if __name__ == "__main__":
     if directory_found:
         for line in loop_program(log_file):
@@ -98,6 +98,13 @@ if __name__ == "__main__":
                 print("The current objective is", response)  # TODO call NLG
                 # update local data
                 data.current_objective = response
+
+            elif request == "geralt_health":
+                # send whatever string to NLG using response as current quest
+                print("Geralt's health is", response)  # TODO call NLG
+                # update local data
+                data.geralt_health = response
+
             elif request == "monsters":
                 # monsters returns like name1,level;name2,level;
                 monsters = response.split(";")
@@ -111,4 +118,3 @@ if __name__ == "__main__":
                         data.near_monsters.append(
                             {"name": monster_name, "level": monster_level})
                         print(monster_name, monster_level)
-                # TODO call NLG

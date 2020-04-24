@@ -21,7 +21,7 @@ exec function writeCurrentObjective()
 	var currentObjective : CJournalQuestObjective;
 	currentObjective = theGame.GetJournalManager().GetHighlightedObjective();
 
-	LogChannel('ChatMod',"current_objective:"+GetLocStringById(current_objective.GetTitleStringId()));
+	LogChannel('ChatMod',"current_objective:"+GetLocStringById(currentObjective.GetTitleStringId()));
 }
 
 exec function writeMonsters()
@@ -31,18 +31,19 @@ exec function writeMonsters()
 	var response : string;
 	var i : int;
 
-	thePlayer.GetEnemiesInRange(monster_list);
-
+	thePlayer.GetEnemiesInRange(enemies_list);
+	
 	for(i = 0; i <  enemies_list.Size(); i+=1)
-	{
+	{	
+
 		actor = enemies_list[i];
 		if(actor.IsMonster())
 		{
 			response += actor.GetDisplayName()+","+actor.GetLevel() + ";";
 		}
 
-	}
 
+	}
 	LogChannel('ChatMod',"monsters:"+ response);
 }
 
