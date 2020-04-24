@@ -91,9 +91,11 @@ class NLG:
             "key": (f"War... War never changes",
                     f"You know the rules, never work for free",
                     f"Folks Don't Expect Witchers To Save Them From Themselves.",
-                    f"Evil Is Evil. Lesser, Greater, Middling, Makes No Difference. The Degree Is Arbitrary, The Definitions Blurred.",
+                    f"Evil Is Evil. Lesser, Greater, Middling, Makes No Difference. "
+                    f"The Degree Is Arbitrary, The Definitions Blurred.",
                     f"There's a grain of truth in every fairy tale.",
-                    f"When you know about something it stops being a nightmare. When you know how to fight something, it stops being so threatening.",
+                    f"When you know about something it stops being a nightmare. When you know how to fight something, "
+                    f"it stops being so threatening.",
                     f"Friendship is magic, and magic is heresy",
                     f"Do you know when stories stop being stories? The moment someone begins to believe in them.",
                     f"Every myth, every fable must have some roots. Something lies among those roots.",
@@ -173,6 +175,12 @@ class NLG:
 
     def ChitChat(self):
         return self.chitchat["key"][random.randrange(0, 10, 1)]
+
+    # state_machine = {'Intent': "", 'Entity': "", 'Phrase': "",  'Info': "", 'Method': "",
+    #                  'P_Intent': None, 'P_Entity': None, 'P_Phrase': None, 'P_Info': None, 'P_Method': None, }
+
+
+
 
     # when picking up objects: "A journal. Might be useful"
     # When sees blood on the floor:

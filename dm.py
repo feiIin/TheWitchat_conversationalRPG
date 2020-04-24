@@ -173,6 +173,10 @@ def getWhoIsEntity(value):
         return GetCharacterInfo("mislav","description")
     elif value == "Herbalist ":
         return GetCharacterInfo("herbalist (shrine) ","description")
+    elif value == "You" or value == "you":
+        return "I am but an humble traveler, always happy to share my stories"
+    elif value == "I" or value == "i":
+        return "Can't you tell ?"
 
 
 
@@ -188,13 +192,14 @@ def getWhereIsEntity(value):
 
 
 
+
 # TODO: delete them once the methods are connected with the DB
 def getInfoAboutEntity(value):
     return None
 
 
 def getRelationshipBetweenGeraltAndEntity(value):
-    return None
+    return "Just an humble traveler always happy to share some stories"
 
 
 def getFactsAboutEntity(value):

@@ -1,7 +1,7 @@
 from pynput.keyboard import Key, Listener
 import SpeechToText
 from nlu import get_intent
-from stateMachine import state_machine
+from stateMachine import state_machine, PrepareForNewQuery
 from dm import dm, initiate_priority_list, get_highest_priority_chat, remove_from_priority_list, getShortCombat
 import nlg
 from TextToSpeech import TextToSpeech
@@ -10,16 +10,18 @@ import datetime
 import random
 from threading import Timer
 
+
 def on_press(key):
     global fetchingAnswer
     global phrase
     print('{0} pressed'.format(key))
-    if fetchingAnswer == False and key ==  Key.space:
+    if fetchingAnswer == False and key == Key.space:
         print("LOOK FOR PHRASE")
         phrase = cleanUpPhrase(SpeechToText.RecordVoice())
         print("GOT PHRASE")
         fetchingAnswer = True
     return False
+
 
 # TODO: add more cleaning, for all words that need to be cleaned
 def cleanUpPhrase(text):
@@ -51,6 +53,7 @@ def cleanUpPhrase(text):
     print("This is the new phrase: " + result)
     return result
 
+
 def on_release(key):
     print('{0} release'.format(
         key))
@@ -65,7 +68,7 @@ nluResult = ""
 
 
 def CheckKeys():
-    with Listener(on_press=on_press,on_release=on_release) as listener:
+    with Listener(on_press=on_press, on_release=on_release) as listener:
         # TODO : Solve the bug that just replay the last query over and over again after this timer.
         Timer(25, listener.stop).start()
         listener.join()
@@ -84,24 +87,24 @@ def main():
     priority_list_already_used = []
 
     while True:
-    # turned it into a loop, should work out.
-
+        # turned it into a loop, should work out.
 
         current_time = datetime.datetime.now()
         delta_time = (current_time.second + current_time.minute * 60) - (
                 previous_time.second + previous_time.minute * 60)
 
-        #print("hello world")
+        # print("hello world")
         # TODO: method to put the current state to the previous state
 
         if rng_cooldown < delta_time:
-            print("Overtime !")
+            print("The random cooldown is over, the chatbot will now say either some edgy chitchat "
+                  "or talk about the game ")
             previous_time = current_time
             # testing values, this is the duration between two chitchat lines
             rng_cooldown = random.randint(15, 25)
 
             # testing value, this represent the likehood of the bot saying a chitchat line or talk about the game
-            if(random.randint(0, 100) > 101) :
+            if (random.randint(0, 100) > 101):
                 # update_W3_data()
                 W3_data = get_W3_data()
 
@@ -126,13 +129,12 @@ def main():
                         if health_sentence not in priority_list[0]:
                             priority_list[0].append(health_sentence)
 
-
                 # gotta add more stuff in it.
 
                 # Get the highest priority chat & send it to the TTS (NGL work was done before adding the elements
                 # Into the list)
                 sentence = get_highest_priority_chat(priority_list)
-                if sentence in priority_list_already_used :
+                if sentence in priority_list_already_used:
                     if sentence != "Hummm":
                         remove_from_priority_list(priority_list, sentence)
                         sentence = get_highest_priority_chat(priority_list)
@@ -141,12 +143,12 @@ def main():
                 TextToSpeech(sentence)
 
                 # TextToSpeech("Hummm")
-            else :
+            else:
                 # Add some chitchat to the mix
                 chitchat_sentence = nlg.NLG(state_machine)
                 TextToSpeech(chitchat_sentence.ChitChat())
 
-        else :
+        else:
             CheckKeys()
 
             if phrase is not "":
@@ -157,42 +159,51 @@ def main():
                 text = nluResult["text"].lower()
 
                 # tries to retrieve the entity of the previous user input and store it as Previous entity
+                """
                 try:
                     state_machine["P_Entity"] = state_machine["Entity"]
                 except AttributeError:
                     text = "none"
+                """
 
-                # tries to fill the state machine with the Intent of the new phrase
-                try:
-                    state_machine["Intent"] = intent
-                except AttributeError:
-                    intent = "none"
 
-                # tries to fill the state machine with the Entity of the new phrase
-                try:
-                    state_machine["Entity"] = entities_names[0]
-                except IndexError:
-                    entity = "none"
+                # Checks if this sentence wasn't already processed
+                if (intent != state_machine["P_Intent"] or
+                        entities_names[0] != state_machine["P_Entity"] or
+                        text != state_machine["P_Phrase"]):
 
-                # tries to fill the state machine with the new phrase
-                try:
-                    state_machine["Phrase"] = text
-                except AttributeError:
-                    text = "none"
+                    # tries to fill the state machine with the Intent of the new phrase
+                    try:
+                        state_machine["Intent"] = intent
+                    except AttributeError:
+                        intent = "none"
 
-                print("\n")
-                info = dm()
+                    # tries to fill the state machine with the Entity of the new phrase
+                    try:
+                        state_machine["Entity"] = entities_names[0]
+                    except IndexError:
+                        entity = "none"
 
-                # tries to fill the state machine with the new information retrieved from the DB or the game
-                try:
-                    state_machine["Info"] = info
-                except AttributeError:
-                    info = "none"
+                    # tries to fill the state machine with the new phrase
+                    try:
+                        state_machine["Phrase"] = text
+                    except AttributeError:
+                        text = "none"
 
-                # nlg
-                final_phrase = nlg.NLG(state_machine)
-                answer = final_phrase.get_nlg()
-                TextToSpeech(answer)
+                    print("\n")
+                    info = dm()
+
+                    # tries to fill the state machine with the new information retrieved from the DB or the game
+                    try:
+                        state_machine["Info"] = info
+                    except AttributeError:
+                        info = "none"
+
+                    # nlg
+                    final_phrase = nlg.NLG(state_machine)
+                    answer = final_phrase.get_nlg()
+                    TextToSpeech(answer)
+                    PrepareForNewQuery()
 
 
 if __name__ == '__main__':
