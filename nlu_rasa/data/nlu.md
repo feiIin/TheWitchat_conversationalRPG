@@ -20,19 +20,19 @@
 - no thanks
 
 ## intent:get_lore
-- Where are [Yennefer](lore) from
-- Who is [Vesemir](lore)
-- Who is [Geralt](lore)
-- Can you tell me more about [Ciri](lore)
-- How [Ciri](lore) is related to you
-- Who are [The Nifgaardian](lore)
-- Who are [The Witcher](lore)
-- Where is [Kaer Morhen](lore)
-- What is [Kaer Morhen](lore)
-- What happened at [White Orchard](lore)
-- Can you tell me more about [Kaer Morhen](lore)
-- What is [Temeria](lore)
-- What happened in [White Orchard](lore)
+- Where are [yennefer](lore) from
+- Who is [vesemir](lore)
+- Who is [geralt](lore)
+- Can you tell me more about [ciri](lore)
+- How [ciri](lore) is related to you
+- Who are [the nifgaardian](lore)
+- Who are [the witcher](lore)
+- Where is [kaer morhen](lore)
+- What is [kaer morhen](lore)
+- What happened at [white orchard](lore)
+- Can you tell me more about [kaer Morhen](lore)
+- What is [temeria](lore)
+- What happened in [white orchard](lore)
 
 ## lookup:lore
 data/lore.txt
@@ -93,11 +93,12 @@ data/ingredient.txt
 - Can I kill a [wolf](monster)
 - What is a [griffin](monster)
 - What is [this](monster) monster
-- What do I use to defeat [The Griffin](monster)
-- What are the weaknesses of a [Griffin](monster)
-- Where may i find the monster [Devil by the Well](monster)
-- Should i prepare before attempting to kill the [Devil by the well](monster)
-- Where can I fight a [Griffin](monster) 
+- What do I use to defeat [the griffin](monster)
+- What are the weaknesses of a [griffin](monster)
+- Where may i find the monster [devil by the well](monster)
+- Should i prepare before attempting to kill the [devil by the well](monster)
+- Where can I fight a [griffin](monster)
+- Can you tell me more about [bear](monster)
 
 ## lookup:monster
 data/monster.txt

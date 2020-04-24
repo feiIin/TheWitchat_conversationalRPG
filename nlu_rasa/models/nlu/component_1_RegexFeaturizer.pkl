@@ -1,7 +1,7 @@
 [
     {
         "name": "lore",
-        "pattern": "(?i)(\\bYennefer\\b|\\bVesemir\\b|\\bGeralt\\b|\\bCiri\\b|\\bThe\\ Nifgaardian\\b|\\bThe\\ Witcher\\b|\\bKaer\\ Morhen\\b|\\bWhite\\ Orchard\\b|\\bTemeria\\b|\\bCaptain\\ Peter\\b|\\bVizima\\b|\\bElsa\\b|\\bBram\\b|\\bRhosyn\\b|\\bTomira\\b|\\bWillis\\b|\\bTomira's\\ hut\\b|\\bmill\\b|\\bsawmill\\b|\\bbridge\\b|\\bcrossroads\\b|\\byou\\b|\\bI\\b|\\bWitcher\\b)"
+        "pattern": "(?i)(\\bYennefer\\b|\\bVesemir\\b|\\bGeralt\\b|\\bCiri\\b|\\byennefer\\b|\\bvesemir\\b|\\bgeralt\\b|\\bciri\\b|\\bthe\\ nifgaardian\\b|\\bthe\\ witcher\\b|\\bkaer\\ morhen\\b|\\bwhite\\ orchard\\b|\\btemeria\\b|\\bcaptain\\ peter\\b|\\bvizima\\b|\\belsa\\b|\\bbram\\b|\\brhosyn\\b|\\btomira\\b|\\bwillis\\b|\\btomira's\\ hut\\b|\\bmill\\b|\\bsawmill\\b|\\bbridge\\b|\\bcrossroads\\b|\\bwitcher\\b)"
     },
     {
         "name": "action",
@@ -9,10 +9,10 @@
     },
     {
         "name": "ingredient",
-        "pattern": "(?i)(\\bPetri's\\ Philter\\b|\\bGriffin\\ mutagen\\b|\\bWhite\\ Honey\\b|\\bAxeman's\\ trousers\\b|\\bDark\\ iron\\ ingots\\b|\\bIron\\ ingots\\b|\\bThunderbolt\\b|\\bSpecter\\ Oil\\b|\\bWhite\\ Gull\\b|\\bHanged\\ Man’s\\ Venom\\b|\\bSwallow\\ potion\\b|\\bSamum\\ bomb\\b|\\bArenaria\\b|\\bBalisse\\ Fruit\\b|\\bBerbercane\\ Fruit\\b|\\bBlowbill\\b|\\bBryonia\\b|\\bBuckthorn\\b|\\bCelandine\\b|\\bCortinarius\\b|\\bCrow's\\ Eye\\b|\\bFools\\ Parsley\\ Leaves\\b|\\bHellebore\\ Petals\\b|\\bHoneysuckle\\b|\\bHop\\ Umbels\\b|\\bRibleaf\\b|\\bVerbena\\b|\\bWhite\\ Myrtle\\b|\\bWolfsbane\\b)"
+        "pattern": "(?i)(\\bpetri's\\ philter\\b|\\bgriffin\\ mutagen\\b|\\bwhite\\ honey\\b|\\baxeman's\\ trousers\\b|\\bdark\\ iron\\ ingots\\b|\\biron\\ ingots\\b|\\bthunderbolt\\b|\\bspecter\\ oil\\b|\\bwhite\\ gull\\b|\\bhanged\\ man’s\\ venom\\b|\\bswallow\\ potion\\b|\\bsamum\\ bomb\\b|\\barenaria\\b|\\bbalisse\\ fruit\\b|\\bberbercane\\ fruit\\b|\\bfruit\\b|\\bblowbill\\b|\\bbryonia\\b|\\bbuckthorn\\b|\\bcelandine\\b|\\bcortinarius\\b|\\bcrow's\\ eye\\b|\\bfools\\ parsley\\ leaves\\b|\\bhellebore\\ petals\\b|\\bhoneysuckle\\b|\\bhop\\ umbels\\b|\\bribleaf\\b|\\bverbena\\b|\\bwhite\\ myrtle\\b|\\bwolfsbane\\b)"
     },
     {
         "name": "monster",
-        "pattern": "(?i)(\\bGriffin\\b|\\bBig\\ Bad\\ Wolf\\b|\\bNoonwraith\\b|\\bDevil\\ by\\ the\\ Well\\b|\\bGhoul\\b|\\bWolf\\b|\\bDogs\\b|\\bBears\\b|\\bWerewolves\\b|\\bAlghoul\\b|\\bTroll\\b|\\bIce\\ Troll\\b|\\bGiant\\b|\\bRock\\ Troll\\b|\\bWraith\\b|\\bBanshee\\b|\\bVampire\\b)"
+        "pattern": "(?i)(\\bgriffin\\b|\\bbig\\ bad\\ wolf\\b|\\bnoonwraith\\b|\\bdevil\\ by\\ the\\ well\\b|\\bghoul\\b|\\bwolf\\b|\\bdogs\\b|\\bbears\\b|\\bwerewolves\\b|\\balghoul\\b|\\btroll\\b|\\bice\\ troll\\b|\\bgiant\\b|\\brock\\ troll\\b|\\bwraith\\b|\\bbanshee\\b|\\bvampire\\b)"
     }
 ]

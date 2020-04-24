@@ -1,17 +1,17 @@
-Griffin
-Big Bad Wolf
-Noonwraith
-Devil by the Well
-Ghoul
-Wolf
-Dogs
-Bears
-Werewolves
-Alghoul
-Troll
-Ice Troll
-Giant
-Rock Troll
-Wraith
-Banshee
-Vampire
+griffin
+big bad wolf
+noonwraith
+devil by the well
+ghoul
+wolf
+dogs
+bears
+werewolves
+alghoul
+troll
+ice troll
+giant
+rock troll
+wraith
+banshee
+vampire

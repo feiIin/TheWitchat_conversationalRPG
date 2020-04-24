@@ -2,21 +2,25 @@ Yennefer
 Vesemir
 Geralt
 Ciri
-The Nifgaardian
-The Witcher
-Kaer Morhen
-White Orchard
-Temeria
-Captain Peter
-Vizima
-Elsa
-Bram
-Rhosyn
-Tomira
-Willis
-Tomira's hut
+yennefer
+vesemir
+geralt
+ciri
+the nifgaardian
+the witcher
+kaer morhen
+white orchard
+temeria
+captain peter
+vizima
+elsa
+bram
+rhosyn
+tomira
+willis
+tomira's hut
 mill
 sawmill
 bridge
 crossroads
-Witcher
+witcher
