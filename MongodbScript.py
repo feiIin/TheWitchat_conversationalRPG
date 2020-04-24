@@ -477,13 +477,16 @@ def GetAlchemyInfo(name, nameOfElement):
 
 def GetLocationInfo(name, nameOfElement):
     collection = db.Locations
-    return QueryDB(collection, name.lower(), nameOfElement)
+    if(name != None):
+        return QueryDB(collection, name.lower(), nameOfElement)
+    else :
+        return "What do you mean by that ?"
 
 
 """
 CALL CreateDatabase to Create a MONGODB database
 """
-CreateDatabase()
+# CreateDatabase()
 
 
 """

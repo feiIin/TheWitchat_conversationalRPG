@@ -30,28 +30,28 @@ class NLG:
         """  Dictionaries with of all possible answers based on the intention of the question """
 
         self.greet = {
-            "key": (f"Hey", f"Hello", f"Mhh, do you need something?")
+            "key": (f"Hey", f"Hello", f"Hummm, do you need something?")
         }
 
         self.affirm = {
-            "key": (f"Ok, do you want anything else", f"Ok", f"Mhh")
+            "key": (f"Ok, do you want anything else", f"Ok", f"Hummm")
         }
 
         self.deny = {
-            "key": (f"Ok, do you need anything else", f"Ok", f"Mhh")
+            "key": (f"Ok, do you need anything else", f"Ok", f"Hummm")
         }
 
         self.thanking = {
-            "key": (f"Don't worry", f"Ok", f"Mhh")
+            "key": (f"Don't worry", f"Ok", f"Hummm")
         }
 
         """
         self.mood_great = {
-            "key": (f" ", f"Ok",f"Mhh")
+            "key": (f" ", f"Ok",f"Hummm")
         } 
         """
         self.lore = {
-            "key": (f"{self.Entity} is {self.Info}")
+            "key": (f"{self.Info}")
         }
 
         # Right now quest confirmation works the same, not sure how to differentiate them. 
@@ -88,6 +88,19 @@ class NLG:
         }
 
         self.chitchat = {
+            "key": (f"War... War never changes",
+                    f"You know the rules, never work for free",
+                    f"Folks Don't Expect Witchers To Save Them From Themselves.",
+                    f"Evil Is Evil. Lesser, Greater, Middling, Makes No Difference. "
+                    f"The Degree Is Arbitrary, The Definitions Blurred.",
+                    f"There's a grain of truth in every fairy tale.",
+                    f"When you know about something it stops being a nightmare. When you know how to fight something, "
+                    f"it stops being so threatening.",
+                    f"Friendship is magic, and magic is heresy",
+                    f"Do you know when stories stop being stories? The moment someone begins to believe in them.",
+                    f"Every myth, every fable must have some roots. Something lies among those roots.",
+                    f"I could never resist the temptation of having a look at something that doesn't exist."
+                    )
         }
 
         self.botchallenge = {
@@ -159,6 +172,15 @@ class NLG:
     def Inventory(self):
         if self.Intent == "inventory":
             return self.thaning["key"][random.randrange(0, 3, 1)]
+
+    def ChitChat(self):
+        return self.chitchat["key"][random.randrange(0, 10, 1)]
+
+    # state_machine = {'Intent': "", 'Entity': "", 'Phrase': "",  'Info': "", 'Method': "",
+    #                  'P_Intent': None, 'P_Entity': None, 'P_Phrase': None, 'P_Info': None, 'P_Method': None, }
+
+
+
 
     # when picking up objects: "A journal. Might be useful"
     # When sees blood on the floor:

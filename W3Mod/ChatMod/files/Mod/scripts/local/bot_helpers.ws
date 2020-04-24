@@ -24,20 +24,26 @@ exec function writeCurrentObjective()
 	LogChannel('ChatMod',"current_objective:"+GetLocStringById(current_objective.GetTitleStringId()));
 }
 
-exec function writeMonstersLevel()
+exec function writeMonsters()
 {
-	var monster_list : array<CActor>;
-	var levels : string;
+	var enemies_list : array<CActor>;
+	var actor : CActor;
+	var response : string;
 	var i : int;
 
 	thePlayer.GetEnemiesInRange(monster_list);
-	
-	for(i = 0; i <  monster_list.Size(); i+=1)
+
+	for(i = 0; i <  enemies_list.Size(); i+=1)
 	{
-		levels += monster_list[i].GetLevel() + " ";
+		actor = enemies_list[i];
+		if(actor.IsMonster())
+		{
+			response += actor.GetDisplayName()+","+actor.GetLevel() + ";";
+		}
+
 	}
-	
-	LogChannel('ChatMod',"monster_levels:"+ levels);
+
+	LogChannel('ChatMod',"monsters:"+ response);
 }
 
 exec function writeGeraltHealth()
