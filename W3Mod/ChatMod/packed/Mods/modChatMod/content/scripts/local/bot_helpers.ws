@@ -13,26 +13,40 @@ exec function writeCurrentQuest()
 	var currentQuest : CJournalQuest;
 	currentQuest = theGame.GetJournalManager().GetTrackedQuest();
 	
-	LogChannel('testmod',"current_quest:"+GetLocStringById(currentQuest.GetTitleStringId()));
+	LogChannel('ChatMod',"current_quest:"+GetLocStringById(currentQuest.GetTitleStringId()));
 }
 
-exec function writeMonstersLevel()
+exec function writeCurrentObjective()
 {
-	var monster_list : array<CActor>;
-	var levels : string;
+	var currentObjective : CJournalQuestObjective;
+	currentObjective = theGame.GetJournalManager().GetHighlightedObjective();
+
+	LogChannel('ChatMod',"current_objective:"+GetLocStringById(currentObjective.GetTitleStringId()));
+}
+
+exec function writeMonsters()
+{
+	var enemies_list : array<CActor>;
+	var actor : CActor;
+	var response : string;
 	var i : int;
 
-	thePlayer.GetEnemiesInRange(monster_list);
+	thePlayer.GetEnemiesInRange(enemies_list);
 	
-	for(i = 0; i <  monster_list.Size(); i+=1)
-	{
-		levels += monster_list[i].GetLevel() + " ";
+	for(i = 0; i <  enemies_list.Size(); i+=1)
+	{	
+		actor = enemies_list[i];
+		if(actor.IsMonster())
+		{
+			response += actor.GetDisplayName()+","+actor.GetLevel() + ";";
+		}
+		
 	}
 	
-	LogChannel('testmod', levels);
+	LogChannel('ChatMod',"monsters:"+ response);
 }
 
 exec function writeGeraltHealth()
 {
-	LogChannel('testmod',"geralt_health:"+thePlayer.GetLevel());
+	LogChannel('ChatMod',"geralt_health:"+thePlayer.GetLevel());
 }
