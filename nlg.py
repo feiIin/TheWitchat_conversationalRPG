@@ -15,8 +15,8 @@ import random
 """ Right now it passes this created state machine to the NLG (see main below). 
     To connect all we should call the actual State Machine"""
 """
- state_machine = {'Intent': "combat_helper", 'Entity': "the goat", 'Phrase': "Who is Yennefer",
-                  'Info': "go to the woods and get a knife", 'Method': "getWhoIsEntity()"}
+state_machine = {'Intent': "combat_helper", 'Entity': "the goat", 'Phrase': "Who is Yennefer",
+                  'Info': "go to the woods and get a knife", 'Method': "getWhatIsEntity()"}
 """
 
 class NLG:
@@ -249,12 +249,12 @@ class NLG:
     #   "More blood stains over there. But it's not his blood"
 
 """
- if __name__ == "__main__":
-     print("==============================================\n")
+if __name__ == "__main__":
+    print("==============================================\n")
 #
-     nlg = NLG(state_machine)
-     nlg.get_nlg()
+    nlg = NLG(state_machine)
+    nlg.get_nlg()
 #
-     print("==============================================\n")
+    print("==============================================\n")
 
 """
