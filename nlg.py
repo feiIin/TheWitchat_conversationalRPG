@@ -14,10 +14,10 @@ import random
 
 """ Right now it passes this created state machine to the NLG (see main below). 
     To connect all we should call the actual State Machine"""
-
-# state_machine = {'Intent': "combat_helper", 'Entity': "the goat", 'Phrase': "Who is Yennefer",
-#                  'Info': "go to the woods and get a knife", 'Method': "getWhoIsEntity()"}
-
+"""
+ state_machine = {'Intent': "combat_helper", 'Entity': "the goat", 'Phrase': "Who is Yennefer",
+                  'Info': "go to the woods and get a knife", 'Method': "getWhoIsEntity()"}
+"""
 
 class NLG:
 
@@ -50,8 +50,16 @@ class NLG:
             "key": (f" ", f"Ok",f"Hummm")
         } 
         """
+
+        self.loreWhere = {
+            "key": (f"{self.Entity} is in {self.Info}", f"You can find {self.Entity} in {self.Info}")
+        }
+
         self.lore = {
-            "key": (f"{self.Info}")
+            "key": (f"{self.Entity} is {self.Info}")
+        }
+        self.loreFacts = {
+            "key": (f"I can tell you that {self.Info}")
         }
 
         # Right now quest confirmation works the same, not sure how to differentiate them. 
@@ -63,9 +71,23 @@ class NLG:
         # The ingredient needs to be the entity her. Maybe we should divide this in two: where to get the ingredient, and how to craft
         # So then the possible answers would be "To craft this you need..." / This can be found in .... /// difficult to make it general
         # altough if we include the type of question (Where/Why/How would be easier and just in one method)
-        self.craft = {
+        self.craftWith = {
+            "key": (f"With {self.Entity} you can craft {self.Info}")
+        }
+        self.craftHow = {
+            "key": (f"To craft {self.Entity} you have to {self.Info}")
+        }
+        self.craftWhere = {
+            "key": (f"You can find {self.Entity} in {self.Info}", f"You can find it in {self.Info}", f"Go to {self.Info}") 
+        }
+        self.craftNow = {
             "key": (f"{self.Entity} is {self.Info}")
         }
+        self.craftCheck = {
+            "key": (f"You need {self.Info} to craft {self.Entity}")
+        }
+
+        
 
         # For questions about Where are WE? or were I AM? How to anser?
         self.location = {
@@ -74,9 +96,23 @@ class NLG:
         }
 
         # Again, generalize questions here or if asks Where to kill, access to the question WHERE.
-        self.combat = {
+        self.combatWhat = {
+            "key": (f"{self.Entity} is {self.Info}", f"It is a monster, it is {self.Info}",
+                    f"You should know that {self.Entity} is {self.Info}")
+        }
+
+        self.combatWhere = {
+            "key": (f"To kill {self.Entity}, you need to go to {self.Info}", f"{self.Entity} is in {self.Info}",
+                    f"To defeat {self.Entity} you need to go to {self.Info}")
+        }
+
+        self.combatHow = {
             "key": (f"To kill {self.Entity}, you need to {self.Info}", f"You need to {self.Info}",
                     f"To defeat {self.Entity} you need to {self.Info}")
+        }
+
+        self.combatWeak = {
+            "key": (f"The weakness of {self.Entity} are {self.Info}")
         }
 
         self.inventory = {
@@ -107,31 +143,6 @@ class NLG:
 
         }
 
-    def get_nlg(self):
-        if self.Intent == "":
-            print("There is no intent")
-        if self.Intent == "greet":
-            return NLG.Greet(self)
-        if self.Intent == "affirm":
-            return NLG.Affirm(self)
-        if self.Intent == "deny":
-            return NLG.Deny(self)
-        if self.Intent == "thanking":
-            return NLG.Thanking(self)
-        if self.Intent == "get_lore":
-            return  NLG.Lore(self)
-        if self.Intent == "ask_quest_confirmation" or self.Intent == "ask_help_quest":
-            return NLG.Quest(self)
-        if self.Intent == "craft_helper":
-            print(self.craft["key"])
-        if self.Intent == "location":
-            return NLG.Location(self)
-        if self.Intent == "combat_helper":
-            return NLG.Combat(self)
-        if self.Intent == "inventory":
-            return NLG.Inventory(self)
-
-
     def Greet(self):
         if self.Intent == "greet":
             return self.greet["key"][random.randrange(0, 3, 1)]
@@ -149,25 +160,47 @@ class NLG:
             return self.thanking["key"][random.randrange(0, 3, 1)]
 
     def Lore(self):
-        if self.Intent == "get_lore" and self.Method == "getWhoIsEntity()":
+        if self.Intent == "get_lore" and self.Method == "getWhoIsEntity()" or self.Method == "getInfoAboutEntity()" or self.Method == "getRelationshipBetweenGeraltAndEntity()":
             # print(f"{self.Entity} is {self.Info}")
             return self.lore["key"]
+        if self.Intent == "get_lore" and self.Method == "getWhereIsEntity()":
+            # print(f"{self.Entity} is {self.Info}")
+            return self.loreWhere["key"][random.randrange(0, 2, 1)]
+        if self.Intent == "get_lore" and self.Method == "getFactsAboutEntity()":
+            # print(f"{self.Entity} is {self.Info}")
+            return self.loreFacts["key"]
+
+    def Craft(self):
+        if self.Intent == "craft_helper" and self.Method == "getHowToCraftEntity()":
+            return self.craftHow["key"]
+        if self.Intent == "craft_helper" and self.Method == "getWhereToFindEntity()":
+            return self.craftWhere["key"][random.randrange(0, 3, 1)]
+        if self.Intent == "craft_helper" and self.Method == "getWhatToDoWithEntity()":
+            return self.craftWith["key"]
+        if self.Intent == "craft_helper" and self.Method == "getWhatIsPossibleToCraftNow()":
+            return self.craftNow["key"]
+        if self.Intent == "craft_helper" and self.Method == "isPossibleToCraftEntity()":
+            return self.craftCheck["key"]
+
+    def Combat(self):
+        if self.Intent == "combat_helper" and self.Method == "getWhatIsEntity()" or self.Method == "getWhatIsThisEntity()":
+            return self.combatWhat["key"][random.randrange(0, 3, 1)]
+        if self.Intent == "combat_helper" and self.Method == "getWeaknessesOfEntity()":
+            return self.combatWeak["key"]
+        if self.Intent == "combat_helper" and self.Method == "getLocationOfMonster()": #monster is in entity
+            return self.combatWhere["key"][random.randrange(0, 3, 1)]
+        if self.Intent == "combat_helper" and self.Method == "getHowKillfMonster()": #monster is in entity
+            return self.combatHow["key"][random.randrange(0, 3, 1)]
+
 
     def Quest(self):
         if self.Intent == "ask_quest_confirmation" or self.Intent == "ask_help_quest":
             return self.quest["key"][random.randrange(0, 3, 1)]
 
-    def Craft(self):
-        if self.Intent == "craft_helper":
-            return self.craft["key"]
 
     def Location(self):
         if self.Intent == "location":
             return self.location["key"][random.randrange(0, 3, 1)]
-
-    def Combat(self):
-        if self.Intent == "combat_helper":
-            return self.combat["key"][random.randrange(0, 3, 1)]
 
     def Inventory(self):
         if self.Intent == "inventory":
@@ -175,6 +208,34 @@ class NLG:
 
     def ChitChat(self):
         return self.chitchat["key"][random.randrange(0, 10, 1)]
+
+
+
+
+    def get_nlg(self):
+        if self.Intent == "":
+            print("There is no intent")
+        if self.Intent == "greet":
+            return NLG.Greet(self)
+        if self.Intent == "affirm":
+            return NLG.Affirm(self)
+        if self.Intent == "deny":
+            return NLG.Deny(self)
+        if self.Intent == "thanking":
+            return NLG.Thanking(self)
+        if self.Intent == "get_lore":
+            return  NLG.Lore(self)
+        if self.Intent == "ask_quest_confirmation" or self.Intent == "ask_help_quest":
+            return NLG.Quest(self)
+        if self.Intent == "craft_helper":
+            return NLG.Craft(self)
+        if self.Intent == "location":
+            return NLG.Location(self)
+        if self.Intent == "combat_helper":
+            return NLG.Combat(self)
+        if self.Intent == "inventory":
+            return NLG.Inventory(self)
+
 
     # state_machine = {'Intent': "", 'Entity': "", 'Phrase': "",  'Info': "", 'Method': "",
     #                  'P_Intent': None, 'P_Entity': None, 'P_Phrase': None, 'P_Info': None, 'P_Method': None, }
@@ -187,11 +248,13 @@ class NLG:
     #   "A man.. satabbed with a knife, died on the spot. Animals fed on his body, picked his skeleton clean"
     #   "More blood stains over there. But it's not his blood"
 
+"""
+ if __name__ == "__main__":
+     print("==============================================\n")
+#
+     nlg = NLG(state_machine)
+     nlg.get_nlg()
+#
+     print("==============================================\n")
 
-# if __name__ == "__main__":
-#     print("==============================================\n")
-#
-#     # nlg = NLG(state_machine)
-#     # nlg.get_nlg()
-#
-#     print("==============================================\n")
+"""
