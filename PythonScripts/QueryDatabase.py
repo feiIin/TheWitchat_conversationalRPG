@@ -30,6 +30,37 @@ def GetAlchemyInfo(itemName, nameOfElement):
         response = "Entry invalid"
     return response
 
+
+def GetLocationInfo(LocationName, nameOfElement):
+    print("SYSTEM HAS FOUND KEYWORDS: " + LocationName + " AND " + nameOfElement)
+    collection = db.Locations
+
+    myquery = {"name": LocationName}
+    response = ""
+    try:
+        mydoc = collection.find(myquery)
+        tempResult = str(mydoc[0][nameOfElement])
+        response = tempResult
+    except:
+        print("ENEMY Entry invalid " + LocationName + "  "+ nameOfElement)
+        response = "Entry invalid"
+    return response
+
+def GetCharacterInfo(CharacterName, nameOfElement):
+    print("SYSTEM HAS FOUND KEYWORDS: " + CharacterName + " AND " + nameOfElement)
+    collection = db.Characters
+
+    myquery = {"name": CharacterName}
+    response = ""
+    try:
+        mydoc = collection.find(myquery)
+        tempResult = str(mydoc[0][nameOfElement])
+        response = tempResult
+    except:
+        print("ENEMY Entry invalid " + CharacterName + "  "+ nameOfElement)
+        response = "Entry invalid"
+    return response
+
 #
 # try:
 #         client = MongoClient('localhost', 27017)

@@ -4,8 +4,9 @@
 # The "current states" should be passed as "previous states" after the  bot selects the nlg template to use
 
 
-state_machine = {'Intent': None, 'Entity': None, 'Phrase': None,  'Info': None, 'Method': None,  'P_Intent': None,
+state_machine = {'Intent': None, 'Entity': None, 'Phrase': None, 'Info': None, 'Method': None, 'P_Intent': None,
                  'P_Entity': None, 'P_Phrase': None, 'P_Info': None, 'P_Method': None, }
+
 
 # Example of state during interaction:
 # Dict = {'Intent': 'getLore', 'Entity' : 'Yennifer', 'Phrase': 'Who is yennifer', 'Info': 'the love of my life',
@@ -47,6 +48,7 @@ def set_p_info(info):
 
 def set_p_method(method):
     state_machine['P_Method'] = method
+
 
 def set_method(method):
     state_machine['Method'] = method
@@ -93,6 +95,23 @@ def get_p_method():
 
 def get_method():
     return state_machine['Method']
+
+
+def PrepareForNewQuery():
+    state_machine['P_Intent'] = state_machine['Intent']
+    state_machine['Intent'] = None
+
+    state_machine['P_Entity'] = state_machine['Entity']
+    state_machine['Entity'] = None
+
+    state_machine['P_Phrase'] = state_machine['Phrase']
+    state_machine['Phrase'] = None
+
+    state_machine['P_Info'] = state_machine['Info']
+    state_machine['Info'] = None
+
+    state_machine['P_Method']= state_machine['Method']
+    state_machine['Method'] = None
 
 #### to test #####
 #

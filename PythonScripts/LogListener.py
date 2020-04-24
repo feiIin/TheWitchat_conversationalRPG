@@ -28,6 +28,10 @@ class WitcherData:
         self.near_monsters = []
 
 
+def get_W3_data():
+
+    return data
+
 def loop_program(file):
     fp = open(file, 'r')
     while True:
@@ -42,6 +46,39 @@ def loop_program(file):
 
 data = WitcherData()
 
+def update_W3_data():
+    if directory_found:
+        for line in loop_program(log_file):
+            # splitting on character ':' to have list [request,response]
+            request, response = line.split(':')
+            # print(request)
+            # print(response)
+
+            # check request (look in bot_helpers.ws)
+            if request == "current_quest":
+                # send whatever string to NLG using response as current quest
+                print("The current quest is", response)  # TODO call NLG
+                # update local data
+                data.current_quest = response
+            elif request == "current_objective":
+                # send whatever string to NLG using response as current quest
+                print("The current objective is", response)  # TODO call NLG
+                # update local data
+                data.current_objective = response
+            elif request == "monsters":
+                # monsters returns like name1,level;name2,level;
+                monsters = response.split(";")
+                # clear previous data
+                data.near_monsters.clear()
+                for m in monsters:
+                    if m:
+                        # split name,level
+                        monster_name, monster_level = m.split(',')
+                        # update data
+                        data.near_monsters.append(
+                            {"name": monster_name, "level": monster_level})
+                        print(monster_name, monster_level)
+                # TODO call NLG
 if __name__ == "__main__":
     if directory_found:
         for line in loop_program(log_file):
@@ -61,11 +98,13 @@ if __name__ == "__main__":
                 print("The current objective is", response)  # TODO call NLG
                 # update local data
                 data.current_objective = response
+
             elif request == "geralt_health":
                 # send whatever string to NLG using response as current quest
                 print("Geralt's health is", response)  # TODO call NLG
                 # update local data
                 data.geralt_health = response
+
             elif request == "monsters":
                 # monsters returns like name1,level;name2,level;
                 monsters = response.split(";")
@@ -79,4 +118,3 @@ if __name__ == "__main__":
                         data.near_monsters.append(
                             {"name": monster_name, "level": monster_level})
                         print(monster_name, monster_level)
-                # TODO call NLG

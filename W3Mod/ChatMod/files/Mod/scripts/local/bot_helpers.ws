@@ -35,14 +35,15 @@ exec function writeMonsters()
 	
 	for(i = 0; i <  enemies_list.Size(); i+=1)
 	{	
+
 		actor = enemies_list[i];
 		if(actor.IsMonster())
 		{
 			response += actor.GetDisplayName()+","+actor.GetLevel() + ";";
 		}
-		
+
+
 	}
-	
 	LogChannel('ChatMod',"monsters:"+ response);
 }
 

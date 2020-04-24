@@ -1,0 +1,1 @@
+{"0": "affirm", "1": "ask_help_quest", "10": "thanking", "2": "ask_quest_confirmation", "3": "combat_helper", "4": "craft_helper", "5": "deny", "6": "get_lore", "7": "greet", "8": "inventory", "9": "location"}
