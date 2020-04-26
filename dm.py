@@ -68,35 +68,39 @@ unknown()
 from PythonScripts import ConnectToDatabase
 from nlu import get_intent
 from stateMachine import state_machine
-from MongodbScript import GetEnemyInfo, GetAlchemyInfo, GetCharacterInfo, GetLocationInfo
+from MongodbScript import *
+
 
 # RULES ##############################
 
 
 def get_info(intent, text, entity):
-
     # it the system is not able to get an intent, no info will be retrieved.
     if intent == "none" or entity == "none":
         print("I DID IT")
         state_machine["Method"] = "unknown()"
         return ""
 
-
     # get_lore intent #
     if intent == "get_lore":
         if text.find("where") != -1:
-            # query db asking for the location of the entities + return it to nlg
+            state_machine["Method"] = "getWhereIsEntity()"
             return getWhereIsEntity(entity)
+
         elif text.find("who") != -1:
             state_machine["Method"] = "getWhoIsEntity()"
             return getWhoIsEntity(entity)
+
         elif text.find("you") != -1 or text.find("between") != -1:
             state_machine["Method"] = "getRelationshipBetweenGeraltAndEntity()"
             return getRelationshipBetweenGeraltAndEntity(entity)
+
         elif text.find("more") != -1 or text.find("tell") != -1:
             state_machine["Method"] = "getFactsAboutEntity()"
             return getFactsAboutEntity(entity)
+
         else:
+            state_machine["Method"] = "unknown()"
             return None
 
     # craft_helper intent #
@@ -104,44 +108,57 @@ def get_info(intent, text, entity):
         if text.find("how") != -1 and text.find("can") != -1 or text.find("how") != -1 and text.find("do") != -1:
             state_machine["Method"] = "getHowToCraftEntity()"
             return getHowToCraftEntity(entity)
+
         elif text.find("can") != -1:
             state_machine["Method"] = "isPossibleToCraftEntity()"
             return isPossibleToCraftEntity(entity)
+
         elif text.find("where") != -1:
             state_machine["Method"] = "getWhereToFindEntity()"
             return getWhereToFindEntity(entity)
+
         elif text.find("what") != -1 or text.find("how") != -1:
             state_machine["Method"] = "getWhatToDoWithEntity()"
             return getWhatToDoWithEntity(entity)
+
         elif text.find("what") != -1 and ("can") != -1:
             state_machine["Method"] = "getWhatIsPossibleToCraftNow()"
             return getWhatIsPossibleToCraftNow(entity)
+
         elif text.find("can") != -1 and ("craft") != -1:
             state_machine["Method"] = "isPossibleToCraftEntity()"
             return isPossibleToCraftEntity(entity)
+
         else:
+            state_machine["Method"] = "unknown()"
             return None
 
     # combat_helper intent #
-    hasSaid = False
     if intent == "combat_helper":
-        if hasSaid == False:
-            if text.find("how") != -1 and text.find("attack") != -1 or text.find("kill") != -1 or text.find("defeat") != -1 or text.find("how") != -1 and text.find("destroy") != -1:
-                hasSaid = True
-                state_machine["Method"] = "getShortCombat()"
-                return getShortCombat(entity)
-            else:
-                return getLongCombat(entity)
+        if text.find("how") != -1 and (text.find("attack") != -1 or text.find("kill") != -1 or
+                                       text.find("defeat") != -1 and text.find("destroy") != -1):
+            state_machine["Method"] = "getShortCombat()"
+            return getShortCombat(entity)
+
+        elif text.find("more") != -1 and text.find("about"):
+            state_machine["Method"] = "getLongCombat()"
+            return getLongCombat(entity)
+
         elif text.find("what") != -1 and text.find("is") != -1:
             state_machine["Method"] = "getWhatIsEntity()"
             return getWhatIsEntity(entity)
+
         elif text.find("what") != -1 and text.find("weaknesses") != -1:
             state_machine["Method"] = "getWeaknessesOfEntity()"
             return getWeaknessesOfEntity(entity)
-        elif text.find("where") != -1 and text.find("is") != -1:
+
+        elif text.find("what") != -1 and (text.find("is") != -1 or text.find("are") != -1):
+            state_machine["Method"] = "getWeaknessesOfEntity()"
+            return getWeaknessesOfEntity(entity)
+
+        elif text.find("where") != -1 and text.find("find") != -1:
             state_machine["Method"] = "getLocationOfMonster()"
             return getLocationOfMonster(entity)
-
 
     state_machine["Method"] = "unknown()"
     return ""
@@ -150,47 +167,48 @@ def get_info(intent, text, entity):
 # examples of database queries ##
 def getWhoIsEntity(value):
     if value == "Yennefer":
-        return GetCharacterInfo("yennefer of vengerberg","description")
+        return GetCharacterInfo("yennefer of vengerberg", "description")
     elif value == "Vesemir":
-        return GetCharacterInfo("vesemir","description")
+        return GetCharacterInfo("vesemir", "description")
     elif value == "Ciri":
-        return GetCharacterInfo("ciri","description")
+        return GetCharacterInfo("ciri", "description")
     elif value == "Geralt":
-        return GetCharacterInfo("geralt of rivia","description")
+        return GetCharacterInfo("geralt of rivia", "description")
     elif value == "Triss":
-        return GetCharacterInfo("triss merigold","description")
+        return GetCharacterInfo("triss merigold", "description")
     elif value == "Bram":
-        return GetCharacterInfo("Bram","description")
+        return GetCharacterInfo("Bram", "description")
     elif value == "Bastien":
-        return GetCharacterInfo("bastien vildenvert","description")
+        return GetCharacterInfo("bastien vildenvert", "description")
     elif value == "Elsa":
-        return GetCharacterInfo("elsa","description")
+        return GetCharacterInfo("elsa", "description")
     elif value == "Peter":
-        return GetCharacterInfo("peter saar gwynleve","description")
+        return GetCharacterInfo("peter saar gwynleve", "description")
     elif value == "Dune":
-        return GetCharacterInfo("dune vildenvert","description")
+        return GetCharacterInfo("dune vildenvert", "description")
     elif value == "Mislav":
-        return GetCharacterInfo("mislav","description")
+        return GetCharacterInfo("mislav", "description")
     elif value == "Herbalist ":
-        return GetCharacterInfo("herbalist (shrine) ","description")
+        return GetCharacterInfo("herbalist (shrine) ", "description")
     elif value == "You" or value == "you":
         return "I am but an humble traveler, always happy to share my stories"
     elif value == "I" or value == "i":
         return "Can't you tell ?"
-
+    elif value is None:
+        return "What do you mean by that ?"
 
 
 def getWhereIsEntity(value):
     if value == "Yennefer":
         return "somewhere, we need to find her"
     elif value == "Vesemir":
-        return "Kaer Morhen"
+        return "in Kaer Morhen, safely waiting for winter to pass"
     elif value == "Ciri":
-        return "somewhere"
-    elif value == "Geralt":
-        return "Right here, are you blind ?"
-
-
+        return "somewhere, we haven't heard of her for years."
+    elif value == "Geralt" or value == "geralt":
+        return "right here, are you blind ?"
+    else :
+        return "somewhere in the continent. We don't know much more about it."
 
 
 # TODO: delete them once the methods are connected with the DB
@@ -233,6 +251,7 @@ def getShortCombat(value):
 def getLongCombat(value):
     return GetEnemyInfo(value, "longCombatTactic")
 
+
 def getInfoAboutCharacter(value):
     return GetCharacterInfo(value, "description")
 
@@ -240,11 +259,32 @@ def getInfoAboutCharacter(value):
 def getInfoAboutLocations(value):
     return GetLocationInfo(value, "description")
 
+
 def getWhatIsEntity(value):
-    return None
+    enemies_list = ["ghoul", "dog", "drowner", "nekker", "wraith", "water hag", "griffin", "Griffin", "noon wraith", "noonwraith",
+               "night wraith", "devil by the well"]
+
+    locations_list = ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt"]
+
+    characters_list = ["Yennefer", "Geralt ", "Triss ", "Ciri", "Vesemir", "Bram",
+                  "Bastien",
+                  "Elsa", "Dune", "Herbalist", "Merchant", "Mislav",
+                  "Peter"]
+
+    if value in locations_list:
+        return GetLocationInfo(value, "description")
+    elif value in characters_list:
+        return GetCharacterInfo(value, "description")
+    elif value in enemies_list:
+        # Griffin is an unique case, gotta fix the name before starting the db query
+        if (value == "Griffin" or value == "griffin"):
+            value = "griffin (creature)"
+        return GetEnemyInfo(value, "description")
+    else:
+        return "I have never heard of this before"
 
 
-def getWhatIsThisEntity(value): # for game not DB
+def getWhatIsThisEntity(value):  # for game not DB
     return None
 
 
@@ -254,7 +294,6 @@ def getWeaknessesOfEntity(value):
 
 def getLocationOfMonster(value):
     return GetEnemyInfo(value, "location")
-
 
 
 def initiate_priority_list():
@@ -296,6 +335,7 @@ def dm():
 
     try:
         entity = state_machine["Entity"]
+
     except AttributeError:
         entity = "none"
 

@@ -52,11 +52,11 @@ class NLG:
         """
 
         self.loreWhere = {
-            "key": (f"{self.Entity} is in {self.Info}", f"You can find {self.Entity} in {self.Info}")
+            "key": (f"{self.Entity} is {self.Info}", f"You can find {self.Entity}  {self.Info}")
         }
 
         self.lore = {
-            "key": (f"{self.Entity} is {self.Info}")
+            "key": (f"{self.Info}")
         }
         self.loreFacts = {
             "key": (f"I can tell you that {self.Info}")
@@ -96,20 +96,23 @@ class NLG:
         }
 
         # Again, generalize questions here or if asks Where to kill, access to the question WHERE.
-        self.combatWhat = {
-            "key": (f"{self.Entity} is {self.Info}", f"It is a monster, it is {self.Info}",
-                    f"You should know that {self.Entity} is {self.Info}")
-        }
+        self.combatWhat = f"It is a monster. {self.Info}"
 
+        """  Old one, Doesn't work with every query
         self.combatWhere = {
             "key": (f"To kill {self.Entity}, you need to go to {self.Info}", f"{self.Entity} is in {self.Info}",
                     f"To defeat {self.Entity} you need to go to {self.Info}")
         }
+        """
+
+        self.combatWhere = f"{self.Info}"
 
         self.combatHow = {
             "key": (f"To kill {self.Entity}, you need to {self.Info}", f"You need to {self.Info}",
                     f"To defeat {self.Entity} you need to {self.Info}")
         }
+
+        self.combatTactic = f"{self.Info}"
 
         self.combatWeak = {
             "key": (f"The weakness of {self.Entity} are {self.Info}")
@@ -183,12 +186,19 @@ class NLG:
             return self.craftCheck["key"]
 
     def Combat(self):
+        # getShortCombat getLongCombat
+        if self.Intent == "combat_helper" and self.Method == "getShortCombat()" or self.Method == "getLongCombat()":
+            return self.combatTactic
         if self.Intent == "combat_helper" and self.Method == "getWhatIsEntity()" or self.Method == "getWhatIsThisEntity()":
-            return self.combatWhat["key"][random.randrange(0, 3, 1)]
+            return self.combatWhat
         if self.Intent == "combat_helper" and self.Method == "getWeaknessesOfEntity()":
             return self.combatWeak["key"]
         if self.Intent == "combat_helper" and self.Method == "getLocationOfMonster()": #monster is in entity
-            return self.combatWhere["key"][random.randrange(0, 3, 1)]
+            # return self.combatWhere["key"][random.randrange(0, 3, 1)]
+            if self.Entity is not None and self.Info is not None:
+                if (self.Info.find(self.Entity) != -1) or self.Info.find("griffin") != -1:
+                    self.combatWhere = f"{self.Entity} can usually be found near {self.Info}"
+            return self.combatWhere
         if self.Intent == "combat_helper" and self.Method == "getHowKillfMonster()": #monster is in entity
             return self.combatHow["key"][random.randrange(0, 3, 1)]
 

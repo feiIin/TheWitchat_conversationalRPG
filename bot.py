@@ -31,7 +31,7 @@ def cleanUpPhrase(text):
     for word in split:
         if word == "Jennifer" or word == "yennefer" or word == "Yanni" or word == "Jonathan " or word == "Jenny":
             word = "Yennefer"
-        if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard" or word == "Jolt":
+        if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard" or word == "Jolt" or word == "geralt":
             word = "Geralt"
         if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla":
             word = "Ciri"
@@ -46,9 +46,17 @@ def cleanUpPhrase(text):
         if word == "wolf" or word == "Wolf" or word == "wolfs":
             word = "Big Bad Wolf"
         if word == "Google":
-            word = "Ghoul"
+            word = "ghoul"
         if word == "chill":
             word = "kill"
+        if word == 'race':
+            word = "wraith"
+        if word == 'noon':
+            word = "noonwraith"
+        if word == 'tris':
+            word = "triss"
+        if word == 'by' or word == "bible" or word == "Bible":
+            word == "by the well"
         result += word + " "
     print("This is the new phrase: " + result)
     return result
@@ -79,6 +87,7 @@ def CheckKeys():
 def main():
     global nluResult
     global phrase
+    global fetchingAnswer
 
     current_time = datetime.datetime.now()
     previous_time = datetime.datetime.now()
@@ -144,11 +153,14 @@ def main():
 
                 # TextToSpeech("Hummm")
             else:
-                # Add some chitchat to the mix
+                state_machine["Intent"] = "Chitchat"
+                state_machine["Entity"] = "Narrator"
+                state_machine["Phrase"] = ""
                 chitchat_sentence = nlg.NLG(state_machine)
                 TextToSpeech(chitchat_sentence.ChitChat())
 
         else:
+            fetchingAnswer = False
             CheckKeys()
 
             if phrase is not "":
@@ -165,7 +177,6 @@ def main():
                 except AttributeError:
                     text = "none"
                 """
-
 
                 # Checks if this sentence wasn't already processed
                 if (intent != state_machine["P_Intent"] or
@@ -191,6 +202,8 @@ def main():
                         text = "none"
 
                     print("\n")
+                    print("state_machine before DM: ", state_machine)
+                    print("\n")
                     info = dm()
 
                     # tries to fill the state machine with the new information retrieved from the DB or the game
@@ -199,11 +212,17 @@ def main():
                     except AttributeError:
                         info = "none"
 
+                    # for testing purposes
+                    print("state_machine after DM : ", state_machine)
+                    print("\n")
+                    print("info : ", info)
+
                     # nlg
                     final_phrase = nlg.NLG(state_machine)
                     answer = final_phrase.get_nlg()
                     TextToSpeech(answer)
                     PrepareForNewQuery()
+                    previous_time = current_time
 
 
 if __name__ == '__main__':

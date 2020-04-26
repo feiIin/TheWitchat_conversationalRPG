@@ -464,6 +464,9 @@ def QueryDB(collection, name, nameOfElement):
     return response
 
 def GetEnemyInfo(name, nameOfElement):
+    # Griffin is an unique case, gotta fix the name before starting the db query
+    if (name == "Griffin" or name == "griffin"):
+        name = "griffin (creature)"
     collection = db.Enemies
     return QueryDB(collection, name.lower(), nameOfElement)
 
@@ -476,6 +479,10 @@ def GetAlchemyInfo(name, nameOfElement):
     return QueryDB(collection, name.lower(), nameOfElement)
 
 def GetLocationInfo(name, nameOfElement):
+    # Griffin is an unique case, gotta fix the name before starting the db query
+    if (name == "Griffin" or name == "griffin"):
+        name = "griffin (creature)"
+
     collection = db.Locations
     if(name != None):
         return QueryDB(collection, name.lower(), nameOfElement)
