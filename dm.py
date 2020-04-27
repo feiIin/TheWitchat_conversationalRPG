@@ -171,13 +171,13 @@ def get_info(intent, text, entity):
 
 # examples of database queries ##
 def getWhoIsEntity(value):
-    if value == "Yennefer":
+    if value == "Yennefer" or value == "yennefer":
         return GetCharacterInfo("yennefer of vengerberg", "description")
     elif value == "Vesemir":
         return GetCharacterInfo("vesemir", "description")
     elif value == "Ciri":
         return GetCharacterInfo("ciri", "description")
-    elif value == "Geralt":
+    elif value == "Geralt" or value == "geralt":
         return GetCharacterInfo("geralt of rivia", "description")
     elif value == "Triss":
         return GetCharacterInfo("triss merigold", "description")
@@ -356,26 +356,25 @@ def dm():
     #     entity = state_machine["Entity"]
 
     if entity is None or entity == "None" or entity == "Narrator":
-        if utterance.find("i") != -1 or utterance.find("I") != -1 or utterance.find("We") != -1 or utterance.find(
-                "we") != -1:
-            print("I or we detected bruh")
+        if utterance.find("We") != -1 or utterance.find("we") != -1:
+            print("we detected bruh")
             info = conversation_get_info(utterance, "we")
-
-        elif utterance.find("you") != -1 or utterance.find("You") != -1:
-            print("You detected bruh")
-            info = conversation_get_info(utterance, "you")
 
         elif utterance.find("they") != -1 or utterance.find("They") != -1 \
                 or utterance.find("he") != -1 or utterance.find("He") != -1 \
                 or utterance.find("she") != -1 or utterance.find("She") != -1 :
             print("It She He or They detected bruh")
-            info = get_info(intent, utterance, entity)
+            info = conversation_get_info(utterance, "they")
 
         elif utterance.find("it") != -1 or utterance.find("It") != -1 \
                 or utterance.find("that") != -1 or utterance.find("That") != -1 \
                 or utterance.find("this") != -1 or utterance.find("This") != -1 :
             print("It She He or They detected bruh")
-            info = get_info(intent, utterance, entity)
+            info = conversation_get_info(utterance, "it")
+
+        elif utterance.find("you") != -1 or utterance.find("You") != -1:
+            print("You detected bruh")
+            info = conversation_get_info(utterance, "you")
 
     else:
 
@@ -387,6 +386,38 @@ def dm():
 def conversation_get_info(text, pronoun):
     # Used if there's no entity (use of pronouns) so it'll either be about the character or the previous queries.
     # state_machine["Intent"] = "Conversation"
+
+    try:
+        utterance = state_machine["Phrase"]
+    except AttributeError:
+        utterance = "none"
+
+    try:
+        intent = state_machine["Intent"]
+    except AttributeError:
+        intent = "none"
+
+    try:
+        entity = state_machine["Entity"]
+
+    except AttributeError:
+        entity = "none"
+
+    try:
+        P_utterance = state_machine["P_Phrase"]
+    except AttributeError:
+        P_utterance = "none"
+
+    try:
+        P_intent = state_machine["P_Intent"]
+    except AttributeError:
+        P_intent = "none"
+
+    try:
+        P_entity = state_machine["P_Entity"]
+
+    except AttributeError:
+        P_entity = "none"
 
     if pronoun == "you":
         if text.find("who") != -1:
@@ -435,6 +466,15 @@ def conversation_get_info(text, pronoun):
             state_machine["Intent"] = "Conversation"
             state_machine["Method"] = "CurrentLocation()"
             return "In the middle of nowhere, looking for something that may not even exist. "
+
+    elif pronoun == "it" or pronoun == "they":
+        state_machine["Entity"] = state_machine["P_Entity"]
+        try:
+            entity = state_machine["Entity"]
+        except AttributeError:
+            entity = "none"
+
+        return get_info(state_machine["Intent"], state_machine["Phrase"], state_machine["Entity"])
 
     """
     # it the system is not able to get an intent, no info will be retrieved.

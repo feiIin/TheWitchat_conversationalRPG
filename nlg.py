@@ -1,4 +1,5 @@
 import random
+
 # from stateMachine import state_machine
 # import stateMachine
 
@@ -18,6 +19,7 @@ import random
 state_machine = {'Intent': "combat_helper", 'Entity': "the goat", 'Phrase': "Who is Yennefer",
                   'Info': "go to the woods and get a knife", 'Method': "getWhatIsEntity()"}
 """
+
 
 class NLG:
 
@@ -80,7 +82,8 @@ class NLG:
             "key": (f"To craft {self.Entity} you have to {self.Info}")
         }
         self.craftWhere = {
-            "key": (f"You can find {self.Entity} in {self.Info}", f"You can find it in {self.Info}", f"Go to {self.Info}") 
+            "key": (
+            f"You can find {self.Entity} in {self.Info}", f"You can find it in {self.Info}", f"Go to {self.Info}")
         }
         self.craftNow = {
             "key": (f"{self.Entity} is {self.Info}")
@@ -88,8 +91,6 @@ class NLG:
         self.craftCheck = {
             "key": (f"You need {self.Info} to craft {self.Entity}")
         }
-
-        
 
         # For questions about Where are WE? or were I AM? How to anser?
         self.location = {
@@ -220,24 +221,22 @@ class NLG:
             return self.combatWhat
         if self.Intent == "combat_helper" and self.Method == "getWeaknessesOfEntity()":
             return self.combatWeak["key"]
-        if self.Intent == "combat_helper" and self.Method == "getLocationOfMonster()": #monster is in entity
+        if self.Intent == "combat_helper" and self.Method == "getLocationOfMonster()":  # monster is in entity
             # return self.combatWhere["key"][random.randrange(0, 3, 1)]
             if self.Entity is not None and self.Info is not None:
                 if (self.Info.find(self.Entity) != -1) or self.Info.find("griffin") != -1:
                     self.combatWhere = f"{self.Entity} can usually be found near {self.Info}"
             return self.combatWhere
-        if self.Intent == "combat_helper" and self.Method == "getHowKillfMonster()": #monster is in entity
+        if self.Intent == "combat_helper" and self.Method == "getHowKillfMonster()":  # monster is in entity
             return self.combatHow["key"][random.randrange(0, 3, 1)]
-
 
     def Quest(self):
         if self.Intent == "ask_quest_confirmation" or self.Intent == "ask_help_quest":
             return self.quest["key"][random.randrange(0, 3, 1)]
 
-
     def Location(self):
         if self.Intent == "location":
-            return self.location["key"][random.randrange(0, 3, 1)]
+            return self.CurrentLocation["key"][random.randrange(0, 4, 1)]
 
     def Inventory(self):
         if self.Intent == "inventory":
@@ -251,13 +250,10 @@ class NLG:
             return self.Bothersome["key"][random.randrange(0, 5, 1)]
         elif self.Method == "Work()":
             return self.Work["key"][random.randrange(0, 5, 1)]
-        elif self.Method =="CurrentLocation()":
+        elif self.Method == "CurrentLocation()":
             return self.CurrentLocation["key"][random.randrange(0, 4, 1)]
-        else :
+        else:
             return self.conversation
-
-
-
 
     def get_nlg(self):
         if self.Intent == "":
@@ -271,7 +267,7 @@ class NLG:
         if self.Intent == "thanking":
             return NLG.Thanking(self)
         if self.Intent == "get_lore":
-            return  NLG.Lore(self)
+            return NLG.Lore(self)
         if self.Intent == "ask_quest_confirmation" or self.Intent == "ask_help_quest":
             return NLG.Quest(self)
         if self.Intent == "craft_helper":
@@ -285,17 +281,14 @@ class NLG:
         if self.Intent == "Conversation":
             return NLG.Conversation(self)
 
-
     # state_machine = {'Intent': "", 'Entity': "", 'Phrase': "",  'Info': "", 'Method': "",
     #                  'P_Intent': None, 'P_Entity': None, 'P_Phrase': None, 'P_Info': None, 'P_Method': None, }
-
-
-
 
     # when picking up objects: "A journal. Might be useful"
     # When sees blood on the floor:
     #   "A man.. satabbed with a knife, died on the spot. Animals fed on his body, picked his skeleton clean"
     #   "More blood stains over there. But it's not his blood"
+
 
 """
 if __name__ == "__main__":
