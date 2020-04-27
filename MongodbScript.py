@@ -66,6 +66,14 @@ class Alchemy:
         self.effect = tempEffect
         self.ingredients = tempIngredient
 
+class Quest:
+    def __init__(self, tempName, tempLocation, tempObjective, tempComment, tempMoreInfo):
+        self.name = tempName
+        self.location = tempLocation
+        self.objective = tempObjective
+        self.comment = tempComment
+        self.moreInfo = tempMoreInfo
+
 def insertLocations():
     print("INSERT Locations")
     collection = db["Locations"]
@@ -387,6 +395,19 @@ def insertAlchemy():
             collection.insert_one(test)
 
 
+def insertQuest():
+    print("Insert Quest")
+    collection = db["Quest"]
+    test = {
+            "name": "devil by the well",
+            "location": "Abandoned Village in White Orchard",
+            "objective": "Defeat the Devil by the well",
+            "comment": "Seems like this is all the doing of a Noonwraith",
+            "moreInfo": "If this is a Noonwraith we should have some Moon dust bombs and Spector oil ready"
+            }
+    print(test)
+    collection.insert_one(test)
+
 
 # Function takes name and ingredients of the item you want to craft. It returns a string stating if its possible or not
 # if it is not possible it'll return what items you are missing and how many ingredients of an item you are missing
@@ -434,12 +455,13 @@ def CheckIfIngredientsInInventory(name, tempIngredients):
 
 
 def CreateDatabase():
-
-    # CleanDatabase()
+    #TODO: IF DATABASE THROWS ERRORS DUE TO IT BEING THE FIRST TIME YOU ARE BUILDING IT, COMMENT THE 'CLEANDATABASE()' METHOD
+    CleanDatabase()
     insertLocations()
     insertCharacters()
     insertEnemies()
     insertAlchemy()
+    insertQuest()
     print("Sucessfully created database")
 
 def CleanDatabase():
@@ -450,6 +472,8 @@ def CleanDatabase():
     collection = db.Characters
     collection.drop()
     collection = db.Alchemy
+    collection.drop()
+    collection = db.Quest
     collection.drop()
 
 
@@ -489,12 +513,13 @@ def GetLocationInfo(name, nameOfElement):
     else :
         return "What do you mean by that ?"
 
-
+def GetQuestInfo(name, nameOfElement):
+    collection = db.Quest
+    return QueryDB(collection, name.lower(), nameOfElement)
 """
 CALL CreateDatabase to Create a MONGODB database
 """
-# CreateDatabase()
-
+#CreateDatabase()
 
 """
 UNCOMMENT THE FOLLOWING LINES TO TEST THE CheckIfIngredientsInInventory METHOD
