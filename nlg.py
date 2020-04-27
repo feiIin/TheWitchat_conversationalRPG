@@ -59,8 +59,10 @@ class NLG:
             "key": (f"{self.Info}")
         }
         self.loreFacts = {
-            "key": (f"I can tell you that {self.Info}")
+            "key": f"I can tell you that {self.Info}"
         }
+
+        self.loreDescription = f"{self.Info}"
 
         # Right now quest confirmation works the same, not sure how to differentiate them. 
         #       How to connect the action witht this, any idea?
@@ -142,6 +144,29 @@ class NLG:
                     )
         }
 
+        self.conversation = f"{self.Info}"
+
+        self.Bothersome = {
+            "key": (f"You're noisy...", f"don't you have anything better to do ?",
+                    f"Adventures used to be much more relaxing before you joined me.",
+                    f"Enough questions, focus on the road ahead",
+                    f"It's getting quite bothersome, can't you stop doing that ?")
+        }
+
+        self.Work = {
+            "key": (f"A contract, as usual", f"What is expected from a Witcher, Slay monsters",
+                    f"Purging these lands, one step at a time",
+                    f"I got work to do",
+                    f"Same old story, a Witcher killing monsters.")
+        }
+
+        self.CurrentLocation = {
+            "key": (f"In the middle of nowhere, looking for something that may not even exist ?",
+                    f"Lost.",
+                    f"Somewhere... Over the rainbow",
+                    f"In Nilfgaard  ")
+        }
+
         self.botchallenge = {
 
         }
@@ -172,6 +197,8 @@ class NLG:
         if self.Intent == "get_lore" and self.Method == "getFactsAboutEntity()":
             # print(f"{self.Entity} is {self.Info}")
             return self.loreFacts["key"]
+        if self.Intent == "get_lore" and self.Method == "getWhatIsEntity()":
+            return self.loreDescription
 
     def Craft(self):
         if self.Intent == "craft_helper" and self.Method == "getHowToCraftEntity()":
@@ -219,6 +246,16 @@ class NLG:
     def ChitChat(self):
         return self.chitchat["key"][random.randrange(0, 10, 1)]
 
+    def Conversation(self):
+        if self.Method == "Bothersome()":
+            return self.Bothersome["key"][random.randrange(0, 5, 1)]
+        elif self.Method == "Work()":
+            return self.Work["key"][random.randrange(0, 5, 1)]
+        elif self.Method =="CurrentLocation()":
+            return self.CurrentLocation["key"][random.randrange(0, 4, 1)]
+        else :
+            return self.conversation
+
 
 
 
@@ -245,6 +282,8 @@ class NLG:
             return NLG.Combat(self)
         if self.Intent == "inventory":
             return NLG.Inventory(self)
+        if self.Intent == "Conversation":
+            return NLG.Conversation(self)
 
 
     # state_machine = {'Intent': "", 'Entity': "", 'Phrase': "",  'Info': "", 'Method': "",

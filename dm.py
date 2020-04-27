@@ -87,6 +87,10 @@ def get_info(intent, text, entity):
             state_machine["Method"] = "getWhereIsEntity()"
             return getWhereIsEntity(entity)
 
+        if text.find("what") != -1:
+            state_machine["Method"] = "getWhatIsEntity()"
+            return getWhatIsEntity(entity)
+
         elif text.find("who") != -1:
             state_machine["Method"] = "getWhoIsEntity()"
             return getWhoIsEntity(entity)
@@ -135,10 +139,11 @@ def get_info(intent, text, entity):
 
     # combat_helper intent #
     if intent == "combat_helper":
-        if text.find("how") != -1 and (text.find("attack") != -1 or text.find("kill") != -1 or
-                                       text.find("defeat") != -1 and text.find("destroy") != -1):
+        if (text.find("how") != -1 or text.find("can") != -1) and (
+                text.find("attack") != -1 or text.find("kill") != -1 or
+                text.find("defeat") != -1 and text.find("destroy") != -1):
             state_machine["Method"] = "getLongCombat()"
-            return getLongCombat(entity)
+            return getShortCombat(entity)
 
         elif text.find("more") != -1 and text.find("about"):
             state_machine["Method"] = "getLongCombat()"
@@ -207,7 +212,7 @@ def getWhereIsEntity(value):
         return "somewhere, we haven't heard of her for years."
     elif value == "Geralt" or value == "geralt":
         return "right here, are you blind ?"
-    else :
+    else:
         return "somewhere in the continent. I don't know much about it."
 
 
@@ -261,15 +266,16 @@ def getInfoAboutLocations(value):
 
 
 def getWhatIsEntity(value):
-    enemies_list = ["ghoul", "dog", "drowner", "nekker", "wraith", "water hag", "griffin", "Griffin", "noon wraith", "noonwraith",
-               "night wraith", "devil by the well"]
+    enemies_list = ["ghoul", "dog", "drowner", "nekker", "wraith", "water hag", "griffin", "Griffin", "noon wraith",
+                    "noonwraith",
+                    "night wraith", "devil by the well"]
 
     locations_list = ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt"]
 
     characters_list = ["Yennefer", "Geralt ", "Triss ", "Ciri", "Vesemir", "Bram",
-                  "Bastien",
-                  "Elsa", "Dune", "Herbalist", "Merchant", "Mislav",
-                  "Peter"]
+                       "Bastien",
+                       "Elsa", "Dune", "Herbalist", "Merchant", "Mislav",
+                       "Peter"]
 
     if value in locations_list:
         return GetLocationInfo(value, "description")
@@ -277,9 +283,13 @@ def getWhatIsEntity(value):
         return GetCharacterInfo(value, "description")
     elif value in enemies_list:
         # Griffin is an unique case, gotta fix the name before starting the db query
-        if (value == "Griffin" or value == "griffin"):
+        if value == "Griffin" or value == "griffin":
             value = "griffin (creature)"
         return GetEnemyInfo(value, "description")
+    elif value == "Witcher":
+        return "A witcher is someone who has undergone extensive training, ruthless mental and physical conditioning, " \
+               "and mysterious rituals which take place at witcher schools such as Kaer Morhen in preparation for " \
+               "becoming an itinerant monsterslayer for hire."
     else:
         return "I have never heard of this before"
 
@@ -345,5 +355,97 @@ def dm():
     # else:
     #     entity = state_machine["Entity"]
 
-    info = get_info(intent, utterance, entity)
+    if entity is None or entity == "None" or entity == "Narrator":
+        if utterance.find("i") != -1 or utterance.find("I") != -1 or utterance.find("We") != -1 or utterance.find(
+                "we") != -1:
+            print("I or we detected bruh")
+            info = conversation_get_info(utterance, "we")
+
+        elif utterance.find("you") != -1 or utterance.find("You") != -1:
+            print("You detected bruh")
+            info = conversation_get_info(utterance, "you")
+
+        elif utterance.find("they") != -1 or utterance.find("They") != -1 \
+                or utterance.find("he") != -1 or utterance.find("He") != -1 \
+                or utterance.find("she") != -1 or utterance.find("She") != -1 :
+            print("It She He or They detected bruh")
+            info = get_info(intent, utterance, entity)
+
+        elif utterance.find("it") != -1 or utterance.find("It") != -1 \
+                or utterance.find("that") != -1 or utterance.find("That") != -1 \
+                or utterance.find("this") != -1 or utterance.find("This") != -1 :
+            print("It She He or They detected bruh")
+            info = get_info(intent, utterance, entity)
+
+    else:
+
+        info = get_info(intent, utterance, entity)
+
     return info
+
+
+def conversation_get_info(text, pronoun):
+    # Used if there's no entity (use of pronouns) so it'll either be about the character or the previous queries.
+    # state_machine["Intent"] = "Conversation"
+
+    if pronoun == "you":
+        if text.find("who") != -1:
+            state_machine["Method"] = "getWhoIsEntity()"
+            return getWhoIsEntity("Geralt")
+
+        elif text.find("what") != -1:
+            if text.find("here") != -1:
+                state_machine["Intent"] = "Conversation"
+                state_machine["Method"] = "Work()"
+                return "Work Work"
+            else:
+                state_machine["Method"] = "getWhatIsEntity()"
+                return getWhatIsEntity("Witcher")
+
+        elif text.find("how") != -1:
+            state_machine["Intent"] = "Conversation"
+            state_machine["Method"] = "Bothersome()"
+            return "It's Bothersome, can't you stop doing that ?"
+
+        elif text.find("where") != -1:
+            if text.find("from") != -1:
+                state_machine["Intent"] = "get_lore"
+                return "Rivia"
+
+    elif pronoun == "we":
+        if text.find("who") != -1:
+            state_machine["Intent"] = "get_lore"
+            return "Fellow travelers"
+
+        elif text.find("what") != -1:
+            if text.find("here") != -1:
+                state_machine["Intent"] = "Conversation"
+                state_machine["Method"] = "Work()"
+                return "Work Work"
+            else:
+                state_machine["Method"] = "getWhatIsEntity()"
+                return getWhatIsEntity("Witcher")
+
+        elif text.find("how") != -1:
+            state_machine["Intent"] = "Conversation"
+            state_machine["Method"] = "Bothersome()"
+            return "It's Bothersome, can't you stop doing that ?"
+
+        elif text.find("where") != -1:
+            state_machine["Intent"] = "Conversation"
+            state_machine["Method"] = "CurrentLocation()"
+            return "In the middle of nowhere, looking for something that may not even exist. "
+
+    """
+    # it the system is not able to get an intent, no info will be retrieved.
+    if intent == "none" or entity == "none":
+        print("I DID IT")
+        state_machine["Method"] = "unknown()"
+        return ""
+
+    # get_lore intent #
+    if intent == "get_lore":
+        if text.find("where") != -1:
+            state_machine["Method"] = "getWhereIsEntity()"
+            return getWhereIsEntity(entity)
+    """

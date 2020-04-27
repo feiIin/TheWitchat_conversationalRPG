@@ -38,12 +38,16 @@ def cleanUpPhrase(text):
     for word in split:
         if word == "Jennifer" or word == "yennefer" or word == "Yanni" or word == "Jonathan " or word == "Jenny":
             word = "Yennefer"
+            state_machine["Entity"] = word
         if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard" or word == "Jolt" or word == "geralt":
             word = "Geralt"
+            state_machine["Entity"] = word
         if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla":
             word = "Ciri"
+            state_machine["Entity"] = word
         if word == "Witch" or word == "Witches" or word == "witch" or word == "witches" or word == "there":
             word = "The Witcher"
+            state_machine["Entity"] = "Witcher"
         if word == "caer" or word == "kya":
             word = "Kaer Morhen"
         if word == "orchid" or word == "orca" or word == "white":
@@ -52,18 +56,24 @@ def cleanUpPhrase(text):
             word = "Griffin"
         if word == "wolf" or word == "Wolf" or word == "wolfs":
             word = "Big Bad Wolf"
+            state_machine["Entity"] = word
         if word == "Google":
             word = "ghoul"
+            state_machine["Entity"] = word
         if word == "chill":
             word = "kill"
-        if word == 'race':
+        if word == 'race' or word == 'rife':
             word = "wraith"
+            state_machine["Entity"] = word
         if word == 'noon':
             word = "noonwraith"
+            state_machine["Entity"] = word
         if word == 'tris':
             word = "triss"
+            state_machine["Entity"] = word
         if word == 'by' or word == "bible" or word == "Bible":
             word == "by the well"
+            state_machine["Entity"] = "devil by the well"
         result += word + " "
     print("This is the new phrase: " + result)
     return result
@@ -187,9 +197,7 @@ def main():
                 """
 
                 # Checks if this sentence wasn't already processed
-                if (intent != state_machine["P_Intent"] or
-                        entities_names[0] != state_machine["P_Entity"] or
-                        text != state_machine["P_Phrase"]):
+                if (text != state_machine["P_Phrase"]):
 
                     # tries to fill the state machine with the Intent of the new phrase
                     try:
