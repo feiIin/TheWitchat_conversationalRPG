@@ -118,6 +118,15 @@ def insertLocations():
         tempLocation = Location(tempName, tempDescription, moreInfo, tempLocationLocation)
         locationsToInsert.append(tempLocation)
 
+    # Hard coding Rivia into location
+    tempRivia = {
+            "name": "rivia",
+            "description": "rivia was a small kingdom in the Dol Angra valley, at the foot of the Mahakam mountains. Throughout the history it entered a personal union with its neighbour kingdom of Lyria about as many times as it fought a war with it.",
+            "moreInfo" : "most of the ancestors of modern Rivia's inhabitants settled here in two waves: the first after the Six Years' War in the 9th century and the second in the 11th, both comprised mainly of war refugees and opponents of Temerian and Cintran rulers.",
+            "location" : "rivia is situated at the foot of the Mahakam mountains, on the eastern side of the range. To the west, through Klamat Pass, one can reach Angren."
+        }
+    collection.insert_one(tempRivia)
+
     for e in locationsToInsert:
         # print(e.name)
         test = {
