@@ -137,8 +137,8 @@ def get_info(intent, text, entity):
     if intent == "combat_helper":
         if text.find("how") != -1 and (text.find("attack") != -1 or text.find("kill") != -1 or
                                        text.find("defeat") != -1 and text.find("destroy") != -1):
-            state_machine["Method"] = "getShortCombat()"
-            return getShortCombat(entity)
+            state_machine["Method"] = "getLongCombat()"
+            return getLongCombat(entity)
 
         elif text.find("more") != -1 and text.find("about"):
             state_machine["Method"] = "getLongCombat()"
@@ -208,7 +208,7 @@ def getWhereIsEntity(value):
     elif value == "Geralt" or value == "geralt":
         return "right here, are you blind ?"
     else :
-        return "somewhere in the continent. We don't know much more about it."
+        return "somewhere in the continent. I don't know much about it."
 
 
 # TODO: delete them once the methods are connected with the DB
@@ -344,5 +344,6 @@ def dm():
     #     entity = state_machine['P_Entity']
     # else:
     #     entity = state_machine["Entity"]
+
     info = get_info(intent, utterance, entity)
     return info

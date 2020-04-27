@@ -9,6 +9,7 @@ from PythonScripts.LogListener import *
 import datetime
 import random
 from threading import Timer
+from pygame import mixer
 
 
 def on_press(key):
@@ -16,6 +17,12 @@ def on_press(key):
     global phrase
     print('{0} pressed'.format(key))
     if fetchingAnswer == False and key == Key.space:
+        # Stop the current message if one is active
+        try:
+            mixer.music.stop()
+        except:
+            print("No music to stop")
+
         print("LOOK FOR PHRASE")
         phrase = cleanUpPhrase(SpeechToText.RecordVoice())
         print("GOT PHRASE")
@@ -164,6 +171,7 @@ def main():
             CheckKeys()
 
             if phrase is not "":
+
                 nluResult = get_intent(phrase)
                 # print(result)
                 intent = nluResult["intent"]["name"]
