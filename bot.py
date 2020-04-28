@@ -74,6 +74,9 @@ def cleanUpPhrase(text):
         if word == 'by' or word == "bible" or word == "Bible":
             word == "by the well"
             state_machine["Entity"] = "devil by the well"
+        if word == 'ratio' or word == 'Media' or word == 'media':
+            word = "rivia"
+            state_machine["Entity"] = word
         result += word + " "
     print("This is the new phrase: " + result)
     return result

@@ -393,7 +393,6 @@ def insertAlchemy():
         itemsToInsert.append(tempAlchemy)
 
 
-
     for i in itemsToInsert:
             test = {
                     "name":i.name.lower(),
@@ -462,7 +461,6 @@ def CheckIfIngredientsInInventory(name, tempIngredients):
     return result
 
 
-
 def CreateDatabase():
     #TODO: IF DATABASE THROWS ERRORS DUE TO IT BEING THE FIRST TIME YOU ARE BUILDING IT, COMMENT THE 'CLEANDATABASE()' METHOD
     CleanDatabase()
@@ -472,6 +470,7 @@ def CreateDatabase():
     insertAlchemy()
     insertQuest()
     print("Sucessfully created database")
+
 
 def CleanDatabase():
     collection = db.Enemies
@@ -496,6 +495,7 @@ def QueryDB(collection, name, nameOfElement):
         response = "Entry invalid"
     return response
 
+
 def GetEnemyInfo(name, nameOfElement):
     # Griffin is an unique case, gotta fix the name before starting the db query
     if (name == "Griffin" or name == "griffin"):
@@ -503,13 +503,16 @@ def GetEnemyInfo(name, nameOfElement):
     collection = db.Enemies
     return QueryDB(collection, name.lower(), nameOfElement)
 
+
 def GetCharacterInfo(name, nameOfElement):
     collection = db.Characters
     return QueryDB(collection, name.lower(), nameOfElement)
 
+
 def GetAlchemyInfo(name, nameOfElement):
     collection = db.Alchemy
     return QueryDB(collection, name.lower(), nameOfElement)
+
 
 def GetLocationInfo(name, nameOfElement):
     # Griffin is an unique case, gotta fix the name before starting the db query
@@ -521,6 +524,7 @@ def GetLocationInfo(name, nameOfElement):
         return QueryDB(collection, name.lower(), nameOfElement)
     else :
         return "What do you mean by that ?"
+
 
 def GetQuestInfo(name, nameOfElement):
     collection = db.Quest

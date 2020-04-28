@@ -84,8 +84,12 @@ def get_info(intent, text, entity):
     # get_lore intent #
     if intent == "get_lore":
         if text.find("where") != -1:
-            state_machine["Method"] = "getWhereIsEntity()"
-            return getWhereIsEntity(entity)
+            if text.find("from") != -1:
+                state_machine["Method"] = "getWhereIsEntityFrom()"
+                return getWhereIsEntityFrom(entity)
+            else :
+                state_machine["Method"] = "getWhereIsEntity()"
+                return getWhereIsEntity(entity)
 
         if text.find("what") != -1:
             state_machine["Method"] = "getWhatIsEntity()"
@@ -205,15 +209,29 @@ def getWhoIsEntity(value):
 
 def getWhereIsEntity(value):
     if value == "Yennefer":
-        return "somewhere, we need to find her"
+        return "far from here, we need to find her"
     elif value == "Vesemir":
         return "in Kaer Morhen, safely waiting for winter to pass"
     elif value == "Ciri":
-        return "somewhere, we haven't heard of her for years."
+        return "hiding somewhere, we haven't heard of her for years."
     elif value == "Geralt" or value == "geralt":
         return "right here, are you blind ?"
     else:
         return "somewhere in the continent. I don't know much about it."
+
+def getWhereIsEntityFrom(value):
+    if value == "Yennefer":
+        return "Vengerberg, the capital city of Aedirn"
+    elif value == "Vesemir":
+        return "I don't know, Vesemir has been one of us for centuries now but he never told me about his birthplace."
+    elif value == "Ciri":
+        return "Ciri is from Cintra. She used to be their princess after all"
+    elif value == "Geralt" or value == "geralt":
+        return "Kaer Morhen. Yes, the title Geralt of Rivia was simply crafted to appear more" \
+               " trustworthy to potential customers. Being raised in a Witcher school isn't exactly something " \
+               "townfolks consider normal"
+    else:
+        return "There are things that even I do not know about."
 
 
 # TODO: delete them once the methods are connected with the DB
@@ -270,7 +288,7 @@ def getWhatIsEntity(value):
                     "noonwraith",
                     "night wraith", "devil by the well"]
 
-    locations_list = ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt"]
+    locations_list = ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt", "rivia"]
 
     characters_list = ["Yennefer", "Geralt ", "Triss ", "Ciri", "Vesemir", "Bram",
                        "Bastien",
@@ -278,8 +296,10 @@ def getWhatIsEntity(value):
                        "Peter"]
 
     if value in locations_list:
+        state_machine["Intent"] = "get_lore"
         return GetLocationInfo(value, "description")
     elif value in characters_list:
+        state_machine["Intent"] = "get_lore"
         return GetCharacterInfo(value, "description")
     elif value in enemies_list:
         # Griffin is an unique case, gotta fix the name before starting the db query
@@ -420,7 +440,9 @@ def conversation_get_info(text, pronoun):
         P_entity = "none"
 
     if pronoun == "you":
+        state_machine["Entity"] = "Geralt"
         if text.find("who") != -1:
+            state_machine["Intent"] = "get_lore"
             state_machine["Method"] = "getWhoIsEntity()"
             return getWhoIsEntity("Geralt")
 
@@ -441,7 +463,7 @@ def conversation_get_info(text, pronoun):
         elif text.find("where") != -1:
             if text.find("from") != -1:
                 state_machine["Intent"] = "get_lore"
-                return "Rivia"
+                return getWhereIsEntityFrom(state_machine["Entity"])
 
     elif pronoun == "we":
         if text.find("who") != -1:
@@ -454,6 +476,7 @@ def conversation_get_info(text, pronoun):
                 state_machine["Method"] = "Work()"
                 return "Work Work"
             else:
+                state_machine["Intent"] = "get_lore"
                 state_machine["Method"] = "getWhatIsEntity()"
                 return getWhatIsEntity("Witcher")
 

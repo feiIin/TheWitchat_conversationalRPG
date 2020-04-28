@@ -162,7 +162,7 @@ class NLG:
         }
 
         self.CurrentLocation = {
-            "key": (f"In the middle of nowhere, looking for something that may not even exist ?",
+            "key": (f"In the middle of nowhere, looking for something that may not even exist",
                     f"Lost.",
                     f"Somewhere... Over the rainbow",
                     f"In Nilfgaard  ")
@@ -199,6 +199,8 @@ class NLG:
             # print(f"{self.Entity} is {self.Info}")
             return self.loreFacts["key"]
         if self.Intent == "get_lore" and self.Method == "getWhatIsEntity()":
+            return self.loreDescription
+        else :
             return self.loreDescription
 
     def Craft(self):
