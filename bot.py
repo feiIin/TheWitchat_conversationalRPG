@@ -42,7 +42,7 @@ def cleanUpPhrase(text):
         if word == "Gerald" or word == "Germane" or word == "Jenna" or word == "Gerrard" or word == "Jolt" or word == "geralt":
             word = "Geralt"
             state_machine["Entity"] = word
-        if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla":
+        if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla" or word == "sex":
             word = "Ciri"
             state_machine["Entity"] = word
         if word == "Witch" or word == "Witches" or word == "witch" or word == "witches" or word == "there":
@@ -76,7 +76,7 @@ def cleanUpPhrase(text):
             state_machine["Entity"] = "devil by the well"
         if word == 'ratio' or word == 'Media' or word == 'media' or word == 'rivia' or word == 'Rivia' \
                 or word == 'Radio' or word == 'radio' or word == 'review' or word == 'vidya' or word == 'rosia'\
-                or word == 'river' or word == 'arrhythmia':
+                or word == 'river' or word == 'arrhythmia' or word == "Lydia":
             word = "rivia"
             state_machine["Entity"] = word
         result += word + " "
@@ -99,9 +99,9 @@ nluResult = ""
 
 def CheckKeys():
     with Listener(on_press=on_press, on_release=on_release) as listener:
-        Timer(15, listener.stop).start()
+        Timer(25, listener.stop).start()
         listener.join()
-        print('15 seconds passed')
+        print('25 seconds passed')
         return False
 
 
@@ -237,11 +237,13 @@ def main():
                     print("info : ", info)
 
                     # nlg
+
                     final_phrase = nlg.NLG(state_machine)
                     answer = final_phrase.get_nlg()
+                    previous_time = datetime.datetime.now()
                     TextToSpeech(answer)
                     PrepareForNewQuery()
-                    previous_time = current_time
+
 
 
 if __name__ == '__main__':

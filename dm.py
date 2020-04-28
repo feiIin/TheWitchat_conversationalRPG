@@ -108,13 +108,13 @@ def get_info(intent, text, entity):
             state_machine["Method"] = "getWhoIsEntity()"
             return getWhoIsEntity(entity)
 
+        elif text.find("more") != -1 or text.find("tell") != -1:
+            state_machine["Method"] = "getMoreInfoAboutCharacter()"
+            return getMoreInfoAboutCharacter(entity)
+
         elif text.find("you") != -1 or text.find("between") != -1:
             state_machine["Method"] = "getRelationshipBetweenGeraltAndEntity()"
             return getRelationshipBetweenGeraltAndEntity(entity)
-
-        elif text.find("more") != -1 or text.find("tell") != -1:
-            state_machine["Method"] = "getFactsAboutEntity()"
-            return getFactsAboutEntity(entity)
 
         else:
             state_machine["Method"] = "unknown()"
@@ -291,6 +291,38 @@ def getLongCombat(value):
 
 def getInfoAboutCharacter(value):
     return GetCharacterInfo(value, "description")
+
+def getMoreInfoAboutCharacter(value):
+    if value == "Yennefer" or value == "yennefer":
+        return GetCharacterInfo("yennefer of vengerberg", "moreInfo")
+    elif value == "Vesemir":
+        return GetCharacterInfo("vesemir", "moreInfo")
+    elif value == "Ciri":
+        return GetCharacterInfo("ciri", "moreInfo")
+    elif value == "Geralt" or value == "geralt":
+        return GetCharacterInfo("geralt of rivia", "moreInfo")
+    elif value == "Triss":
+        return GetCharacterInfo("triss merigold", "moreInfo")
+    elif value == "Bram":
+        return GetCharacterInfo("Bram", "moreInfo")
+    elif value == "Bastien":
+        return GetCharacterInfo("bastien vildenvert", "moreInfo")
+    elif value == "Elsa":
+        return GetCharacterInfo("elsa", "moreInfo")
+    elif value == "Peter":
+        return GetCharacterInfo("peter saar gwynleve", "moreInfo")
+    elif value == "Dune":
+        return GetCharacterInfo("dune vildenvert", "moreInfo")
+    elif value == "Mislav":
+        return GetCharacterInfo("mislav", "moreInfo")
+    elif value == "Herbalist ":
+        return GetCharacterInfo("herbalist (shrine) ", "moreInfo")
+    elif value == "You" or value == "you":
+        return "I am but an humble traveler, always happy to share my stories"
+    elif value == "I" or value == "i":
+        return "Can't you tell ?"
+    elif value is None:
+        return "What do you mean by that ?"
 
 
 def getInfoAboutLocations(value):

@@ -93,10 +93,7 @@ class NLG:
         }
 
         # For questions about Where are WE? or were I AM? How to anser?
-        self.location = {
-            "key": (f"We are at {self.Info}", f"This is {self.Info}",
-                    f"This place sounds familiar, I think we are at {self.Info}")
-        }
+        self.location = f"{self.Info}"
 
         # Again, generalize questions here or if asks Where to kill, access to the question WHERE.
         self.combatWhat = f"It is a monster. {self.Info}"
@@ -254,7 +251,10 @@ class NLG:
 
     def Location(self):
         if self.Intent == "location":
-            return self.CurrentLocation["key"][random.randrange(0, 4, 1)]
+            if self.Method == "getWhereIsEntity()":
+                return self.location
+            else :
+                return self.CurrentLocation["key"][random.randrange(0, 4, 1)]
 
     def Inventory(self):
         if self.Intent == "inventory":
