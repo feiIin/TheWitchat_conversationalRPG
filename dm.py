@@ -217,6 +217,8 @@ def getWhoIsEntity(value):
 
 
 def getWhereIsEntity(value):
+    locations_list = ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt", "rivia"]
+
     if value == "Yennefer":
         return "far from here, we need to find her"
     elif value == "Vesemir":
@@ -226,7 +228,10 @@ def getWhereIsEntity(value):
     elif value == "Geralt" or value == "geralt":
         return "right here, are you blind ?"
     else:
-        return "somewhere in the continent. I don't know much about it."
+        if value in locations_list:
+            return GetLocationInfo(value, "location")
+        else :
+            return "somewhere in the continent. I don't know much about it."
 
 def getWhereIsEntityFrom(value):
     if value == "Yennefer":

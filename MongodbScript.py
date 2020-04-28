@@ -532,7 +532,7 @@ def GetQuestInfo(name, nameOfElement):
 """
 CALL CreateDatabase to Create a MONGODB database
 """
-#CreateDatabase()
+CreateDatabase()
 
 """
 UNCOMMENT THE FOLLOWING LINES TO TEST THE CheckIfIngredientsInInventory METHOD

@@ -141,7 +141,23 @@ class NLG:
                     f"Friendship is magic, and magic is heresy",
                     f"Do you know when stories stop being stories? The moment someone begins to believe in them.",
                     f"Every myth, every fable must have some roots. Something lies among those roots.",
-                    f"I could never resist the temptation of having a look at something that doesn't exist."
+                    f"I could never resist the temptation of having a look at something that doesn't exist.",
+                    f"No king rules forever",
+                    f"People like to invent monsters and monstrosities. Then they seem less monstrous themselves. ",
+                    f"Time eats away at memories, distorts them. Sometimes we only remember the good... "
+                    f"sometimes only the bad.",
+                    f"Why men throw their lives away attacking an armed witcher... I'll never know. "
+                    f"Something wrong with my face?",
+                    f"The right man in the wrong place can make all the difference in the world.",
+                    f"War is where the young and stupid are tricked by the old and bitter into killing each other",
+                    f"Hope is what makes us strong. It is why we are here. "
+                    f"It is what we fight with when all else is lost.",
+                    f"Men are but flesh and blood. They know their doom, but not the hour.",
+                    f"Dreams have a nasty habit of going bad when you’re not looking.",
+                    f"Stand in the ashes of a million dead souls and ask the ghosts if honor matters. "
+                    f"Their silence is your answer.",
+                    f"The cake is a lie",
+                    f"Kept you waiting, huh?"
                     )
         }
 
@@ -245,7 +261,7 @@ class NLG:
             return self.thaning["key"][random.randrange(0, 3, 1)]
 
     def ChitChat(self):
-        return self.chitchat["key"][random.randrange(0, 10, 1)]
+        return self.chitchat["key"][random.randrange(0, 22, 1)]
 
     def Conversation(self):
         if self.Method == "Bothersome()":

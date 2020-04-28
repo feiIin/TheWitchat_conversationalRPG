@@ -75,7 +75,8 @@ def cleanUpPhrase(text):
             word == "by the well"
             state_machine["Entity"] = "devil by the well"
         if word == 'ratio' or word == 'Media' or word == 'media' or word == 'rivia' or word == 'Rivia' \
-                or word == 'Radio' or word == 'radio' or word == 'review' or word == 'vidya' or word == 'rosia':
+                or word == 'Radio' or word == 'radio' or word == 'review' or word == 'vidya' or word == 'rosia'\
+                or word == 'river' or word == 'arrhythmia':
             word = "rivia"
             state_machine["Entity"] = word
         result += word + " "
@@ -98,10 +99,9 @@ nluResult = ""
 
 def CheckKeys():
     with Listener(on_press=on_press, on_release=on_release) as listener:
-        # TODO : Solve the bug that just replay the last query over and over again after this timer.
-        Timer(25, listener.stop).start()
+        Timer(15, listener.stop).start()
         listener.join()
-        print('25 seconds passed')
+        print('15 seconds passed')
         return False
 
 
@@ -131,10 +131,10 @@ def main():
                   "or talk about the game ")
             previous_time = current_time
             # testing values, this is the duration between two chitchat lines
-            rng_cooldown = random.randint(5, 25)
+            rng_cooldown = random.randint(5, 15)
 
             # testing value, this represent the likehood of the bot saying a chitchat line or talk about the game
-            if random.randint(0, 100) > 50:
+            if random.randint(0, 100) > 100:
                 # update_W3_data()
                 W3_data = get_W3_data()
 
