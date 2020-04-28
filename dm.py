@@ -376,24 +376,25 @@ def dm():
     #     entity = state_machine["Entity"]
 
     if entity is None or entity == "None" or entity == "Narrator":
-        if utterance.find("We") != -1 or utterance.find("we") != -1:
-            print("we detected bruh")
+
+        if utterance.find(" We ") != -1 or utterance.find(" we ") != -1:
+            print("we detected")
             info = conversation_get_info(utterance, "we")
 
-        elif utterance.find("they") != -1 or utterance.find("They") != -1 \
-                or utterance.find("he") != -1 or utterance.find("He") != -1 \
-                or utterance.find("she") != -1 or utterance.find("She") != -1 :
-            print("It She He or They detected bruh")
+        elif utterance.find(" they ") != -1 or utterance.find(" They ") != -1 \
+                or utterance.find(" he ") != -1 or utterance.find(" He ") != -1 \
+                or utterance.find(" she ") != -1 or utterance.find(" She ") != -1 :
+            print("She He or They detected")
             info = conversation_get_info(utterance, "they")
 
-        elif utterance.find("it") != -1 or utterance.find("It") != -1 \
-                or utterance.find("that") != -1 or utterance.find("That") != -1 \
-                or utterance.find("this") != -1 or utterance.find("This") != -1 :
-            print("It She He or They detected bruh")
+        elif utterance.find(" it ") != -1 or utterance.find(" It ") != -1 \
+                or utterance.find(" that ") != -1 or utterance.find(" That ") != -1 \
+                or utterance.find(" this ") != -1 or utterance.find(" This ") != -1 :
+            print("It this or that detected")
             info = conversation_get_info(utterance, "it")
 
-        elif utterance.find("you") != -1 or utterance.find("You") != -1:
-            print("You detected bruh")
+        elif utterance.find(" you ") != -1 or utterance.find(" You ") != -1:
+            print("You detected")
             info = conversation_get_info(utterance, "you")
 
     else:
