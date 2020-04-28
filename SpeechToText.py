@@ -1,4 +1,5 @@
 import speech_recognition as sr
+from pygame import mixer
 
 # This function checks for microphone input and sents this to google Speech to text to parse
 # it then returns a transcript of what it thinks you've said as a string
@@ -14,6 +15,10 @@ def RecordVoice():
         r.adjust_for_ambient_noise(source)
         r.energy_threshold = 700
         print("Please say something to Geralt")
+        mixer.init()
+        mixer.music.load(f'beep.mp3')
+        mixer.music.play()
+
         audio = r.listen(source, timeout= 2, phrase_time_limit= 5)
 
         try:

@@ -74,7 +74,8 @@ def cleanUpPhrase(text):
         if word == 'by' or word == "bible" or word == "Bible":
             word == "by the well"
             state_machine["Entity"] = "devil by the well"
-        if word == 'ratio' or word == 'Media' or word == 'media':
+        if word == 'ratio' or word == 'Media' or word == 'media' or word == 'rivia' or word == 'Rivia' \
+                or word == 'Radio' or word == 'radio' or word == 'review' or word == 'vidya' or word == 'rosia':
             word = "rivia"
             state_machine["Entity"] = word
         result += word + " "
@@ -130,21 +131,20 @@ def main():
                   "or talk about the game ")
             previous_time = current_time
             # testing values, this is the duration between two chitchat lines
-            rng_cooldown = random.randint(15, 25)
+            rng_cooldown = random.randint(5, 25)
 
             # testing value, this represent the likehood of the bot saying a chitchat line or talk about the game
-            if (random.randint(0, 100) > 101):
+            if random.randint(0, 100) > 50:
                 # update_W3_data()
                 W3_data = get_W3_data()
 
-                """  useless for now as we don't have the quests in the DB
-                
-                if (W3_data.current_quest != ""):                    
+                if W3_data.current_quest != "":
                     priority_list[3].append(W3_data.current_quest)
-                if (W3_data.current_objective != ""):                    
+                    print(priority_list[3])
+                if W3_data.current_objective != "":
                     priority_list[2].append(W3_data.current_objective)
-                    
-                """
+                    print(priority_list[2])
+
                 if len(W3_data.near_monsters) > 0:
                     if len(W3_data.near_monsters) > 0:
                         monster = W3_data.near_monsters[0]["name"]

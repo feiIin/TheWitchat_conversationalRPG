@@ -81,6 +81,15 @@ def get_info(intent, text, entity):
         state_machine["Method"] = "unknown()"
         return ""
 
+    if intent == "location":
+        if text.find("where") != -1:
+            state_machine["Method"] = "getWhereIsEntity()"
+            return getWhereIsEntity(entity)
+
+        elif text.find("what") != -1:
+            state_machine["Method"] = "getWhatIsEntity()"
+            return getWhatIsEntity(entity)
+
     # get_lore intent #
     if intent == "get_lore":
         if text.find("where") != -1:
@@ -396,6 +405,9 @@ def dm():
         elif utterance.find(" you ") != -1 or utterance.find(" You ") != -1:
             print("You detected")
             info = conversation_get_info(utterance, "you")
+
+        else :
+            info = get_info(intent, utterance, entity)
 
     else:
 
