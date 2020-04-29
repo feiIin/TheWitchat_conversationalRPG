@@ -79,6 +79,8 @@ def update_W3_data():
                             {"name": monster_name, "level": monster_level})
                         print(monster_name, monster_level)
                 # TODO call NLG
+
+
 if __name__ == "__main__":
     if directory_found:
         for line in loop_program(log_file):

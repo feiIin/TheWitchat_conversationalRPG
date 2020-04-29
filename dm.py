@@ -90,6 +90,10 @@ def get_info(intent, text, entity):
             state_machine["Method"] = "getWhatIsEntity()"
             return getWhatIsEntity(entity)
 
+        elif text.find("more") != -1 and text.find("tell") != -1:
+            state_machine["Method"] = "getMoreInfoAboutLocation()"
+            return getMoreInfoAboutLocation(entity)
+
     # get_lore intent #
     if intent == "get_lore":
         if text.find("where") != -1:
@@ -155,7 +159,7 @@ def get_info(intent, text, entity):
         if (text.find("how") != -1 or text.find("can") != -1) and (
                 text.find("attack") != -1 or text.find("kill") != -1 or
                 text.find("defeat") != -1 and text.find("destroy") != -1):
-            state_machine["Method"] = "getLongCombat()"
+            state_machine["Method"] = "getShortCombat()"
             return getShortCombat(entity)
 
         elif text.find("more") != -1 and text.find("about"):
@@ -233,6 +237,7 @@ def getWhereIsEntity(value):
         else :
             return "somewhere in the continent. I don't know much about it."
 
+
 def getWhereIsEntityFrom(value):
     if value == "Yennefer":
         return "Vengerberg, the capital city of Aedirn"
@@ -292,6 +297,7 @@ def getLongCombat(value):
 def getInfoAboutCharacter(value):
     return GetCharacterInfo(value, "description")
 
+
 def getMoreInfoAboutCharacter(value):
     if value == "Yennefer" or value == "yennefer":
         return GetCharacterInfo("yennefer of vengerberg", "moreInfo")
@@ -323,10 +329,17 @@ def getMoreInfoAboutCharacter(value):
         return "Can't you tell ?"
     elif value is None:
         return "What do you mean by that ?"
+    elif value in ["White Orchard", "Kaer Morhen", "Novigrad", "Oxenfurt", "rivia"]:
+        return getMoreInfoAboutLocation(value)
+
 
 
 def getInfoAboutLocations(value):
     return GetLocationInfo(value, "description")
+
+
+def getMoreInfoAboutLocation(value):
+    return GetLocationInfo(value, "moreInfo")
 
 
 def getWhatIsEntity(value):
@@ -429,13 +442,18 @@ def dm():
 
         elif utterance.find(" they ") != -1 or utterance.find(" They ") != -1 \
                 or utterance.find(" he ") != -1 or utterance.find(" He ") != -1 \
-                or utterance.find(" she ") != -1 or utterance.find(" She ") != -1 :
+                or utterance.find(" she ") != -1 or utterance.find(" She ") != -1 \
+                or utterance.find(" him ") != -1 or utterance.find(" Him ") != -1 \
+                or utterance.find(" her ") != -1 or utterance.find(" Her ") != -1 \
+                or utterance.find(" them ") != -1 or utterance.find(" Them ") != -1 :
+
             print("She He or They detected")
             info = conversation_get_info(utterance, "they")
 
         elif utterance.find(" it ") != -1 or utterance.find(" It ") != -1 \
                 or utterance.find(" that ") != -1 or utterance.find(" That ") != -1 \
-                or utterance.find(" this ") != -1 or utterance.find(" This ") != -1 :
+                or utterance.find(" this ") != -1 or utterance.find(" This ") != -1 \
+                or utterance.find(" them ") != -1 or utterance.find(" Them ") != -1:
             print("It this or that detected")
             info = conversation_get_info(utterance, "it")
 
@@ -494,7 +512,8 @@ def conversation_get_info(text, pronoun):
         if text.find("who") != -1:
             state_machine["Intent"] = "get_lore"
             state_machine["Method"] = "getWhoIsEntity()"
-            return getWhoIsEntity("Geralt")
+            # return getWhoIsEntity("Geralt")
+            return "Name's Geralt of Rivia... I'm a Witcher."
 
         elif text.find("what") != -1:
             if text.find("here") != -1:
@@ -514,6 +533,10 @@ def conversation_get_info(text, pronoun):
             if text.find("from") != -1:
                 state_machine["Intent"] = "get_lore"
                 return getWhereIsEntityFrom(state_machine["Entity"])
+            else :
+                state_machine["Intent"] = "Conversation"
+                state_machine["Method"] = "CurrentLocation()"
+                return "In the middle of nowhere, looking for something that may not even exist. "
 
     elif pronoun == "we":
         if text.find("who") != -1:

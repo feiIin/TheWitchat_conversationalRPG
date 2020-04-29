@@ -45,15 +45,27 @@ def cleanUpPhrase(text):
         if word == "Siri" or word == "Cira" or word == "Circe" or word == "Cirilla" or word == "sex":
             word = "Ciri"
             state_machine["Entity"] = word
+        if word == "Virginia":
+            word = "vesemir"
+            state_machine["Entity"] = word
         if word == "Witch" or word == "Witches" or word == "witch" or word == "witches" or word == "there":
             word = "The Witcher"
             state_machine["Entity"] = "Witcher"
-        if word == "caer" or word == "kya":
+        if word == "caer" or word == "kya" or word == "Mohan" or word == "Kyra" or word == "Guyana":
             word = "Kaer Morhen"
+        if word == "drone":
+            word = "drowner"
+            state_machine["Intent"] = "combat_helper"
+            state_machine["Entity"] = word
+        if word == "dog":
+            word = "dog"
+            state_machine["Intent"] = "combat_helper"
+            state_machine["Entity"] = word
         if word == "orchid" or word == "orca" or word == "white":
             word = "White Orchard"
         if word == "Hydrasun" or word == "greeting" or word == "griffin":
             word = "Griffin"
+            state_machine["Intent"] = "combat_helper"
         if word == "wolf" or word == "Wolf" or word == "wolfs":
             word = "Big Bad Wolf"
             state_machine["Entity"] = word
@@ -62,21 +74,25 @@ def cleanUpPhrase(text):
             state_machine["Entity"] = word
         if word == "chill":
             word = "kill"
-        if word == 'race' or word == 'rife':
+        if word == 'race' or word == 'rife' or word == "Ralph":
             word = "wraith"
             state_machine["Entity"] = word
-        if word == 'noon':
+            state_machine["Intent"] = "combat_helper"
+        if word == 'noon' or word == 'moonroof' or word == "nuna":
             word = "noonwraith"
             state_machine["Entity"] = word
-        if word == 'tris':
+            state_machine["Intent"] = "combat_helper"
+        if word == 'tris' or word == "Tris":
             word = "triss"
             state_machine["Entity"] = word
         if word == 'by' or word == "bible" or word == "Bible":
             word == "by the well"
             state_machine["Entity"] = "devil by the well"
+            state_machine["Intent"] = "combat_helper"
         if word == 'ratio' or word == 'Media' or word == 'media' or word == 'rivia' or word == 'Rivia' \
                 or word == 'Radio' or word == 'radio' or word == 'review' or word == 'vidya' or word == 'rosia'\
-                or word == 'river' or word == 'arrhythmia' or word == "Lydia":
+                or word == 'river' or word == 'arrhythmia' or word == "Lydia" or word == "Rhodesia"\
+                or word == "Frazier":
             word = "rivia"
             state_machine["Entity"] = word
         result += word + " "
@@ -134,9 +150,12 @@ def main():
             rng_cooldown = random.randint(5, 15)
 
             # testing value, this represent the likehood of the bot saying a chitchat line or talk about the game
-            if random.randint(0, 100) > 100:
+            if random.randint(0, 100) > 200:
                 # update_W3_data()
+                # TODO : Check if it actually works with the game
                 W3_data = get_W3_data()
+                print(W3_data.current_quest)
+                print(W3_data.current_objective)
 
                 if W3_data.current_quest != "":
                     priority_list[3].append(W3_data.current_quest)
@@ -241,9 +260,14 @@ def main():
                     final_phrase = nlg.NLG(state_machine)
                     answer = final_phrase.get_nlg()
                     previous_time = datetime.datetime.now()
-                    TextToSpeech(answer)
+                    if answer is not None :
+                        if answer != "None":
+                            TextToSpeech(answer)
+                        else :
+                            TextToSpeech("I'm sorry, what were we talking about ?")
+                    else :
+                        TextToSpeech("I'm sorry, what were we talking about ?")
                     PrepareForNewQuery()
-
 
 
 if __name__ == '__main__':

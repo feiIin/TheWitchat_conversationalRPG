@@ -44,7 +44,7 @@ class NLG:
         }
 
         self.thanking = {
-            "key": (f"Don't worry", f"Ok", f"Hummm")
+            "key": (f"Don't worry", f"Ok", f"You're welcome")
         }
 
         """
@@ -168,10 +168,11 @@ class NLG:
         }
 
         self.Work = {
-            "key": (f"A contract, as usual", f"What is expected from a Witcher, Slay monsters",
-                    f"Purging these lands, one step at a time",
-                    f"I got work to do",
-                    f"Same old story, a Witcher killing monsters.")
+            "key": (f"A contract, as usual",
+                    f"What is expected from a Witcher, Slay monsters",
+                    f"Cleansing these lands, one step at a time",
+                    f"Got work to do",
+                    f"Same old story, Witchers killing monsters.")
         }
 
         self.CurrentLocation = {
