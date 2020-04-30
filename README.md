@@ -42,3 +42,14 @@ For gtts to work properly, you might have to install `mpg321`.
 For Mac to properly make pyaudio work:
 - brew install portaudio
 - pip install pyaudio
+
+## Run the application
+
+
+- Start the game (optional, the system can work also without the game)
+- Run bot.py file
+- Press the space bar before talikng with the system
+- Wait for a sound or for the "Please say something to Geralt" phrase in the terminal
+- Talk with Geralt
+
+After the first run, comment line `535 CreateDatabase()` in MongodbScript.py.
