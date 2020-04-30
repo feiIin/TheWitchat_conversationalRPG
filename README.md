@@ -1,11 +1,14 @@
 # conversationalrpg
 
+[![alt text]( "Logo")]
+
+
 ## Getting Started
 
 Clone the repo:
 
 ```
-git clone https://github.com/feiIin/conversationalrpg.git
+git clone https://github.com/feiIin/TheWitchat_conversationalRPG.git
 ```
 
 Install the dependencies using `bash setup.sh`. Alternatively, find the installation instructions in the next section below:
