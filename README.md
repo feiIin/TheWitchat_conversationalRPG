@@ -1,6 +1,6 @@
 # conversationalrpg
 
-[![alt text]( "Logo")]
+![Image of Preview]( https://github.com/feiIin/TheWitchat_conversationalRPG/blob/master/preview.jpg)
 
 
 ## Getting Started
